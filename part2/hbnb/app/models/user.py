@@ -22,7 +22,7 @@ class User(BaseModel):
             self._first_name = value
         else:
             raise ValueError("First name must be a maximum of 50 characters")
-    
+
     @property
     def last_name(self):
         return self._last_name
@@ -34,14 +34,36 @@ class User(BaseModel):
         else:
             raise ValueError("Last name must be a maximum of 50 characters")
 
-	@property
-	def email(self):
-    	return self._email
-	
-	@email.setter
-	def email(self, value):
-    
-        
+    @property
+    def email(self):
+        return self._email
+
+    @email.setter
+    def email(self, value):
+        # Email not empty
+        if value:
+        # check email format
+            pattern = (r"^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+"
+
+                            r"@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$")
+
+            re.fullmatch(pattern, value)
+            self._email = value
+        else:
+            raise ValueError("Required, must be unique,"
+                             "and should follow standard email format validation.")
+
+    @property
+    def admin(self):
+        return self._is_admin
+
+    @admin.setter
+    def admin(self, value):
+        if isinstance(value, bool):
+            self._is_admin = value
+        else:
+            raise ValueError("Must be boolean value")
+
     def add_place(self, place):
         """User adds a place to list"""
         self.places.append(place)
@@ -49,4 +71,3 @@ class User(BaseModel):
     def add_review(self, review):
         """User can add a review"""
         self.reviews.append(review)
-
