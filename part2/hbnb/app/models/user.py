@@ -18,7 +18,7 @@ class User(BaseModel):
 
     @first_name.setter
     def first_name(self, value):
-        if isinstance(value, str) and len(value) in range(0, 51):
+        if isinstance(value, str) and len(value) in range(51):
             self._first_name = value
         else:
             raise ValueError("First name must be a maximum of 50 characters")
@@ -29,11 +29,12 @@ class User(BaseModel):
 
     @last_name.setter
     def last_name(self, value):
-        if isinstance(value, str) and len(value) in range(0, 51):
+        if isinstance(value, str) and len(value) in range(51):
             self._last_name = value
         else:
             raise ValueError("Last name must be a maximum of 50 characters")
 
+# static method? facade 
     @property
     def email(self):
         return self._email
@@ -54,11 +55,11 @@ class User(BaseModel):
                              "and should follow standard email format validation.")
 
     @property
-    def admin(self):
+    def is_admin(self):
         return self._is_admin
 
-    @admin.setter
-    def admin(self, value):
+    @is_admin.setter
+    def is_admin(self, value):
         if isinstance(value, bool):
             self._is_admin = value
         else:

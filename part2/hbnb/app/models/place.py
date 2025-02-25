@@ -12,6 +12,63 @@ class Place(BaseModel):
         self.reviews = []  # List to store related reviews
         self.amenities = []  # List to store related amenities
 
+    @property
+    def title(self):
+        return self._title
+
+    @title.setter
+    def title(self, value):
+        if len(value) in range(101):
+            self._title = value
+        else:
+            raise ValueError("title must be a maximum of 100 characters")
+
+    @property
+    def price(self):
+        return self._price
+
+    @price.setter
+    def price(self, value):
+        if isinstance(value, float) and value > 0:
+            self._price = value
+        else:
+            raise ValueError("Must be a positive value and float")
+
+    @property
+    def latitude(self):
+        return self._latitude
+
+    @latitude.setter
+    def latitude(self, value):
+        if isinstance(value, float) and value in range(-90.0, 90.0):
+            self._latitude = value
+        else:
+            raise ValueError("Must be within the range of -90.0 to 90.0 and float")
+
+    @property
+    def longitude(self):
+        return self._latitude
+
+    @longitude.setter
+    def longitude(self, value):
+        if isinstance(value, float) and value in range(-180.0, 180.0):
+            self._longitude = value
+        else:
+            raise ValueError("Must be within the range of -90.0 to 90.0 and float")
+
+    @property
+    def owner(self):
+        return self._owner
+
+# User instance of who owns the place. This should be validated to ensure the owner exists.
+    @owner.setter
+    def owner(self, value):
+        if value:
+            # not empty
+            pass
+        else:
+            raise ValueError("Empty or validated")
+
     def add_review(self, review):
         """Add a review to the place."""
         self.reviews.append(review)
