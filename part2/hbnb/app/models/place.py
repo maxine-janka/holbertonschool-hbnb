@@ -1,4 +1,5 @@
 from app.models.basemodel import BaseModel
+from app.models.user import User
 
 class Place(BaseModel):
     def __init__(self, title, description, price, latitude, longitude, owner):
@@ -29,7 +30,7 @@ class Place(BaseModel):
 
     @price.setter
     def price(self, value):
-        if isinstance(value, float) and value > 0:
+        if (isinstance(value, float) or isinstance(value, int)) and value > 0.0:
             self._price = value
         else:
             raise ValueError("Must be a positive value and float")
@@ -40,7 +41,7 @@ class Place(BaseModel):
 
     @latitude.setter
     def latitude(self, value):
-        if isinstance(value, float) and value in range(-90.0, 90.0):
+        if isinstance(value, float) and (-90.00 < value < 90.00):
             self._latitude = value
         else:
             raise ValueError("Must be within the range of -90.0 to 90.0 and float")
@@ -51,7 +52,7 @@ class Place(BaseModel):
 
     @longitude.setter
     def longitude(self, value):
-        if isinstance(value, float) and value in range(-180.0, 180.0):
+        if isinstance(value, float) and (-180.0 < value < 180.0):
             self._longitude = value
         else:
             raise ValueError("Must be within the range of -90.0 to 90.0 and float")
@@ -63,11 +64,10 @@ class Place(BaseModel):
 # User instance of who owns the place. This should be validated to ensure the owner exists.
     @owner.setter
     def owner(self, value):
-        if value:
-            # not empty
-            pass
+        if isinstance(value, User):
+            self._owner = value
         else:
-            raise ValueError("Empty or validated")
+            raise ValueError("Owner must be validated")
 
     def add_review(self, review):
         """Add a review to the place."""

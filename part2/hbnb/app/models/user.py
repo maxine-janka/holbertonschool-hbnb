@@ -34,7 +34,6 @@ class User(BaseModel):
         else:
             raise ValueError("Last name must be a maximum of 50 characters")
 
-# static method? facade 
     @property
     def email(self):
         return self._email
