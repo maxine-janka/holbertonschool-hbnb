@@ -1,4 +1,6 @@
 from app.models.basemodel import BaseModel
+from app.models.place import Place
+from app.models.user import User
 
 class Review(BaseModel):
     def __init__(self, text, rating, place, user):
@@ -10,31 +12,44 @@ class Review(BaseModel):
 
     @property
     def text(self):
-    
+        return self._text
+
     @text.setter
     def text(self, value):
-
+        if value:
+            self._text = value
+        else:
+            raise ValueError("Text required")
 
     @property
     def rating(self):
-        pass
+        return self._rating
 
     @rating.setter
     def rating(self, value):
-        pass
+        if isinstance(value, int) and value in range(1, 5):
+           self._rating = value
+        else:
+            raise ValueError("Ratings must be between 1 and 5") 
 
     @property
     def place(self):
-        pass
+        return self._place
 
     @place.setter
     def place(self, value):
-        pass
+        if isinstance(value, Place):
+            self._place = value
+        else:
+            raise ValueError("Review: Place does not exist")
 
     @property
     def user(self):
-        pass
+        return self._user
 
     @user.setter
     def user(self, value):
-        pass
+        if isinstance(value, User):
+            self._user = value
+        else:
+            raise ValueError("Review: Owner must be validated")
