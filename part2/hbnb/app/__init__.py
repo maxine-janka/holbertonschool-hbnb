@@ -2,9 +2,9 @@ from flask import Flask
 from flask_restx import Api
 from app.api.v1.users import api as users_ns
 
-from app.services.facade import HBnBFacade
+# from app.services.facade import HBnBFacade
 
-facade = HBnBFacade()
+# facade = HBnBFacade()
 
 def create_app():
     app = Flask(__name__)

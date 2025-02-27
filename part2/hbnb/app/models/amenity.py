@@ -1,4 +1,3 @@
-
 from app.models.basemodel import BaseModel
 
 class Amenity(BaseModel):
