@@ -41,17 +41,17 @@ class User(BaseModel):
     @email.setter
     def email(self, value):
         # Email not empty
-        if value:
+        if not value:
+            raise ValueError("Email is required")
         # check email format
-            pattern = (r"^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+"
+        pattern = (r"^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+"
 
                             r"@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$")
-
-            re.fullmatch(pattern, value)
-            self._email = value
-        else:
+        
+        if not re.fullmatch(pattern, value):
             raise ValueError("Required, must be unique,"
                              "and should follow standard email format validation.")
+        self._email = value
 
     @property
     def is_admin(self):

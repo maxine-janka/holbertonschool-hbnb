@@ -1,5 +1,6 @@
 from flask_restx import Namespace, Resource, fields
-from app.services import facade
+from app.services.__init_ import facade
+
 
 
 api = Namespace('users', description='User operations')
@@ -27,16 +28,40 @@ class UserList(Resource):
             return {'error': 'Email already registered'}, 400
 
         new_user = facade.create_user(user_data)
+
         return {'id': new_user.id, 'first_name': new_user.first_name, 'last_name': new_user.last_name, 'email': new_user.email}, 201
 
+    @api.response(200, 'User list retrieved successfully')
+    def get(self):
+        """List all users"""
+        all_users = facade.get_all_users()
+        list_all_users = []
+        for user in all_users:
+            list_all_users.append({
+                'id': str(user.id),
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'email': user.email
+            })
+        return list_all_users, 200
 
-@api.route('/<user_id>')
-class UserResource(Resource):
-    @api.response(200, 'User details retrieved successfully')
-    @api.response(404, 'User not found')
-    def get(self, user_id):
-        """Get user details by ID"""
-        user = facade.get_user(user_id)
-        if not user:
-            return {'error': 'User not found'}, 404
-        return {'id': user.id, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email}, 200
+    @api.route('/<user_id>')
+    class UserResource(Resource):
+        @api.response(200, 'User details retrieved successfully')
+        @api.response(404, 'User not found')
+        def get(self, user_id):
+            """Get user details by ID"""
+            user = facade.get_user(user_id)
+            if not user:
+                return {'error': 'User not found'}, 404
+            return {'id': user.id, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email}, 200
+
+### CURL COMMMANDS TO TEST HHTP REQUESTS ###
+#  Register new user:
+#  curl -X POST http://127.0.0.1:5000/api/v1/users/ -H "Content-Type: application/json" -d '{"first_name": "John", "last_name": "Doe", "email": "john.doe@example.com"}'
+#  Get details by ID:
+#  curl -X GET "http://127.0.0.1:5000/api/v1/users/userid -H "Content-Type: application/json"
+#  List all users:
+#  curl -X GET "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json"
+#  Update user details:
+#  
