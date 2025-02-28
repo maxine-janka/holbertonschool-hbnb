@@ -11,7 +11,7 @@ class HBnBFacade:
         self.review_repo = InMemoryRepository()
         self.amenity_repo = InMemoryRepository()
 
-    ### User Methods ###
+#---------- User Methods ------------# 
     def create_user(self, user_data):
         user = User(**user_data)
         self.user_repo.add(user)
@@ -33,7 +33,8 @@ class HBnBFacade:
         pass
         #too be implemented in part 3
 
-    ### Place methods ###
+
+#---------- Place Methods ------------#
     def create_place(self, place_data):
     # Create a place, including validation for price, latitude, and longitude
         place = Place(**place_data)
@@ -42,18 +43,21 @@ class HBnBFacade:
 
     def get_place(self, place_id):
         # Placeholder for logic to retrieve a place by ID, including associated owner and amenities
-        pass
+        return self.place_repo.get(place_id)
 
     def get_all_places(self):
         # Placeholder for logic to retrieve all places
-        pass
+        return self.place_repo.get_all()
 
     def update_place(self, place_id, place_data):
         # Placeholder for logic to update a place
-        pass
+        return self.place_repo.update(place_id, place_data)
+
+    def get_place_by_owner(self, owner_id):
+        return self.user_repo.get_by_attribute('owner_id', owner_id)
 
 
-    ### Amenity methods ###
+#---------- Amenity Methods ------------#
     def create_amenity(self, amenity_data):
     # Create an amenity
         amenity = Amenity(**amenity_data)
@@ -73,10 +77,11 @@ class HBnBFacade:
         return self.amenity_repo.update(amenity_id, amenity_data)
 
     def get_amenity_by_name(self, name):
+    # Get amenity name attribute
         return self.amenity_repo.get_by_attribute('name', name)
 
 
-    ### Review methods ###
+#---------- Review Methods ------------#
     def create_review(self, review_data):
     # Placeholder for logic to create a review, including validation for user_id, place_id, and rating
         pass

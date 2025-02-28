@@ -35,13 +35,45 @@ class PlaceList(Resource):
     def post(self):
         """Register a new place"""
         # Placeholder for the logic to register a new place
-        pass
+        place_data = api.payload
+
+# curl -X POST http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json" -d '{"title": "Cozy", "description": "nice", "price": 100.0, "latitude": 37.7749, "longitude": -122.4194, "owner": "5a871b30-ec65-445a-945b-722f1605de7c"}'
+
+        # Check if Owner owns place
+        # check_owner = place_data.get('owner_id')
+        # user = facade.get_user(check_owner)
+        check_owner = facade.get_user(place_data['owner'])
+        if not check_owner:
+            return {'error': 'Not Owner'}, 400
+        print(check_owner)
+        
+        new_place = facade.create_place(place_data)
+
+        if new_place:
+            return {'id': new_place.id,
+                    'title': new_place.title,
+                    'description': new_place.description,
+                    'price': new_place.price,
+                    'latitude': new_place.latitude,
+                    'longitude': new_place.longitude,
+                    'owner': new_place.owner
+                }, 201
+        else:
+            return {'error': 'Invalid input data'}, 400
 
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
         """Retrieve a list of all places"""
         # Placeholder for logic to return a list of all places
-        pass
+        all_places = facade.get_all_places()
+        list_all_places = []
+        for place in all_places:
+            list_all_places.append({
+                'id': str(place.id),
+                'title': place.title,
+                'latitude': place.latitude,
+                'longitude': place.longitude,
+            })
 
 @api.route('/<place_id>')
 class PlaceResource(Resource):
@@ -50,7 +82,35 @@ class PlaceResource(Resource):
     def get(self, place_id):
         """Get place details by ID"""
         # Placeholder for the logic to retrieve a place by ID, including associated owner and amenities
-        pass
+        place = facade.get_place(place_id)
+        user = facade.get_user(user_model.get(id))
+        amenity = facade.get_amenity(amenity_model.get(id))
+
+        if not place:
+            return {'error': 'Place not found'}, 404
+        return {
+            'id': place.id,
+            'title': place.title,
+            'description': place.description,
+            'latitude': place.latitude,
+            'longitude': place.longitude,
+             'owner': {
+                    'id': user.id,
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'email': user.email
+                    },
+            'amenities': [
+                {
+                'id': amenity.id,
+                'name': amenity.name
+                },
+                # {
+                # 'id': amenity.id,
+                # 'name': amenity.name
+                # }
+            ]
+        }, 200
 
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
@@ -59,7 +119,13 @@ class PlaceResource(Resource):
     def put(self, place_id):
         """Update a place's information"""
         # Placeholder for the logic to update a place by ID
-        pass
+        place_data = api.payload
+        place_exists = facade.get_place(place_id)
+        if place_exists:
+            facade.update_place(place_id, place_data)
+            return {"message": "Place updated successfully"}, 200
+        else:
+            return {'error': 'Place not found'}, 404
 
 
 # Adding the review model
