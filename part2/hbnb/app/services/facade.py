@@ -52,6 +52,7 @@ class HBnBFacade:
         # Placeholder for logic to update a place
         pass
 
+
     ### Amenity methods ###
     def create_amenity(self, amenity_data):
     # Create an amenity
@@ -70,6 +71,10 @@ class HBnBFacade:
     def update_amenity(self, amenity_id, amenity_data):
     # Update an amenity
         return self.amenity_repo.update(amenity_id, amenity_data)
+
+    def get_amenity_by_name(self, name):
+        return self.amenity_repo.get_by_attribute('name', name)
+
 
     ### Review methods ###
     def create_review(self, review_data):

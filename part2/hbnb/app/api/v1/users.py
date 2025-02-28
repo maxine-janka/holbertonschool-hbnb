@@ -1,5 +1,6 @@
 from flask_restx import Namespace, Resource, fields
 from app.services.__init_ import facade
+import json
 
 
 api = Namespace('users', description='User operations')
@@ -34,15 +35,15 @@ class UserList(Resource):
     def get(self):
         """List all users"""
         all_users = facade.get_all_users()
-        list_all_users = []
-        for user in all_users:
-            list_all_users.append({
-                'id': str(user.id),
-                'first_name': user.first_name,
-                'last_name': user.last_name,
-                'email': user.email
-            })
-        return list_all_users, 200
+        # list_all_users = []
+        # for user in all_users:
+        #     list_all_users.append({
+        #         'id': str(user.id),
+        #         'first_name': user.first_name,
+        #         'last_name': user.last_name,
+        #         'email': user.email
+        #     })
+        return json.loads(all_users), 200
 
     @api.route('/<user_id>')
     class UserResource(Resource):
