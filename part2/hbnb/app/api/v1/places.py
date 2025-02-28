@@ -45,9 +45,9 @@ class PlaceList(Resource):
         check_owner = facade.get_user(place_data['owner'])
         if not check_owner:
             return {'error': 'Not Owner'}, 400
-        print(check_owner)
         
-        new_place = facade.create_place(place_data)
+        place_data['owner'] = user
+        new_place = facade.create_place(user)
 
         if new_place:
             return {'id': new_place.id,
