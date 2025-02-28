@@ -47,7 +47,7 @@ class User(BaseModel):
         pattern = (r"^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+"
 
                             r"@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$")
-        
+
         if not re.fullmatch(pattern, value):
             raise ValueError("Required, must be unique,"
                              "and should follow standard email format validation.")
