@@ -2,7 +2,6 @@ from flask_restx import Namespace, Resource, fields
 from app.services.__init_ import facade
 
 
-
 api = Namespace('users', description='User operations')
 
 # Define the user model for input validation and documentation
@@ -56,12 +55,31 @@ class UserList(Resource):
                 return {'error': 'User not found'}, 404
             return {'id': user.id, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email}, 200
 
-### CURL COMMMANDS TO TEST HHTP REQUESTS ###
+        @api.expect(user_model)
+        @api.response(200, 'User details updated successfully')
+        @api.response(400, 'User does not exist')
+        def put(self, user_id):
+            """Update user details by ID"""
+            user_data = api.payload
+            user_exists = facade.get_user(user_id)
+            if user_exists:
+                updated_data = facade.update_user(user_id, user_data)
+                return {
+                    'message': 'User updated successfully',
+                    'id': str(updated_data.id),
+                    'first_name': updated_data.first_name,
+                    'last_name': updated_data.last_name,
+                    'email': updated_data.email}, 200
+            else:
+                return {'error': 'User does not exist'}, 404
+
+
+        ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
 #  Register new user:
 #  curl -X POST http://127.0.0.1:5000/api/v1/users/ -H "Content-Type: application/json" -d '{"first_name": "John", "last_name": "Doe", "email": "john.doe@example.com"}'
 #  Get details by ID:
-#  curl -X GET "http://127.0.0.1:5000/api/v1/users/userid -H "Content-Type: application/json"
+#  curl -X GET "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json"
 #  List all users:
 #  curl -X GET "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json"
 #  Update user details:
-#  
+#  curl -X PUT http://127.0.0.1:5000/api/v1/users/0459685f-191f-488e-8b5c-277ca8309a17 -H "Content-Type: application/json" -d '{"first_name": "John", "last_name": "Do", "email": "john.doe@example.com"}'
