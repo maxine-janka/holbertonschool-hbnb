@@ -2,6 +2,7 @@ from flask_restx import Namespace, Resource, fields
 from app.services.__init_ import facade
 from app.models.place import Place
 
+
 api = Namespace('places', description='Place operations')
 
 # Define the models for related entities
@@ -28,6 +29,26 @@ place_model = api.model('Place', {
     'amenities': fields.List(fields.String, required=True, description="List of amenities ID's")
 })
 
+# Adding the review model
+review_model = api.model('PlaceReview', {
+    'id': fields.String(description='Review ID'),
+    'text': fields.String(description='Text of the review'),
+    'rating': fields.Integer(description='Rating of the place (1-5)'),
+    'user_id': fields.String(description='ID of the user')
+})
+
+place_model = api.model('Place', {
+    'title': fields.String(required=True, description='Title of the place'),
+    'description': fields.String(description='Description of the place'),
+    'price': fields.Float(required=True, description='Price per night'),
+    'latitude': fields.Float(required=True, description='Latitude of the place'),
+    'longitude': fields.Float(required=True, description='Longitude of the place'),
+    'owner_id': fields.String(required=True, description='ID of the owner'),
+    'owner': fields.Nested(user_model, description='Owner of the place'),
+    'amenities': fields.List(fields.Nested(amenity_model), description='List of amenities'),
+    'reviews': fields.List(fields.Nested(review_model), description='List of reviews')
+})
+
 @api.route('/')
 class PlaceList(Resource):
     @api.expect(place_model)
@@ -38,10 +59,10 @@ class PlaceList(Resource):
         # Placeholder for the logic to register a new place
         place_data = api.payload
 
-        check_owner = facade.get_user(place_data['owner'])
-        print(type(check_owner))
-        print(check_owner.id)
-        if not check_owner:
+        owner_id = facade.get_user(place_data['owner'])
+        # print(type(check_owner))
+        # print(check_owner.id)
+        if not owner_id:
             return {'error': 'Not Owner'}, 404
 
         # Pass directly to Place Class
@@ -51,11 +72,11 @@ class PlaceList(Resource):
                 price=place_data['price'],
                 latitude=place_data['latitude'],
                 longitude=place_data['longitude'],
-                owner=check_owner
+                owner=owner_id
             )
         # Convert to dictionary
         place_dict = new_place.to_dict()
-        # Add place
+        # Add new place
         add_place = facade.create_place(place_dict)
 
         if add_place:
@@ -66,7 +87,7 @@ class PlaceList(Resource):
                 'price': add_place.price,
                 'latitude': add_place.latitude,
                 'longitude': add_place.longitude,
-                'owner': check_owner.id
+                'owner': owner_id.id
             }, 201
         else:
             return {'error': 'Invalid input data'}, 400
@@ -94,31 +115,33 @@ class PlaceResource(Resource):
         """Get place details by ID"""
         # Placeholder for the logic to retrieve a place by ID, including associated owner and amenities
         place = facade.get_place(place_id)
+        user = facade.get_user(place.owner)
+        all_amenity = facade.get_all_amenities()
 
         if not place:
             return {'error': 'Place not found'}, 404
+
+        list_all_amenity = []
+        for amenity in all_amenity:
+            list_all_amenity.append({
+                'id': str(amenity.id),
+                'name': amenity.name
+            })
+        amenity_data = list_all_amenity
+
         return {
             'id': place.id,
             'title': place.title,
             'description': place.description,
             'latitude': place.latitude,
             'longitude': place.longitude,
-             'owner': {
-                    'id': user.id,
-                    'first_name': user.first_name,
-                    'last_name': user.last_name,
-                    'email': user.email
-                    },
-            'amenities': [
-                {
-                'id': amenity.id,
-                'name': amenity.name
-                },
-                # {
-                # 'id': amenity.id,
-                # 'name': amenity.name
-                # }
-            ]
+            'owner': {
+                'id': user.id,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'email': user.email
+            },
+            "amenities": amenity_data
         }, 200
 
     @api.expect(place_model)
@@ -137,24 +160,15 @@ class PlaceResource(Resource):
             return {'error': 'Place not found'}, 404
 
 
-# Adding the review model
-review_model = api.model('PlaceReview', {
-    'id': fields.String(description='Review ID'),
-    'text': fields.String(description='Text of the review'),
-    'rating': fields.Integer(description='Rating of the place (1-5)'),
-    'user_id': fields.String(description='ID of the user')
-})
+        ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
+# Register a New Place
+# curl -X POST http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json" -d '{"title": "Cozy", "description": "nice", "price": 100.0, "latitude": 37.7749, "longitude": -122.4194, "owner": "user_id"}'
 
-place_model = api.model('Place', {
-    'title': fields.String(required=True, description='Title of the place'),
-    'description': fields.String(description='Description of the place'),
-    'price': fields.Float(required=True, description='Price per night'),
-    'latitude': fields.Float(required=True, description='Latitude of the place'),
-    'longitude': fields.Float(required=True, description='Longitude of the place'),
-    'owner_id': fields.String(required=True, description='ID of the owner'),
-    'owner': fields.Nested(user_model, description='Owner of the place'),
-    'amenities': fields.List(fields.Nested(amenity_model), description='List of amenities'),
-    'reviews': fields.List(fields.Nested(review_model), description='List of reviews')
-})
+# Retrieve All Places
+# curl -X GET http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json"
 
-# curl -X POST http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json" -d '{"title": "Cozy", "description": "nice", "price": 100.0, "latitude": 37.7749, "longitude": -122.4194, "owner": "5a871b30-ec65-445a-945b-722f1605de7c"}'
+# Retrieve Place Details
+# curl -X GET http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json"
+
+# Update a Place’s Information
+# curl -X PUT http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json"

@@ -69,3 +69,16 @@ class AmenityResource(Resource):
             return {"message": "Amenity updated successfully"}, 200
         else:
             return {'error': 'Amenity not found'}, 404
+
+        ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
+# Register a New Amenity
+# curl -X POST http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json" -d '{"title": "Cozy", "description": "nice", "price": 100.0, "latitude": 37.7749, "longitude": -122.4194, "owner": "user_id"}'
+
+# Retrieve All Amenities
+# curl -X GET http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json"
+
+# Retrieve Amenity Details
+# curl -X GET http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json"
+
+# Update a Amenity’s Information
+# curl -X PUT http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json"

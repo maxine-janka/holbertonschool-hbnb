@@ -92,8 +92,8 @@ class Place(BaseModel):
         else:
             raise ValueError("title must be a maximum of 100 characters")
 
-    # Converty to dictionary method
     def to_dict(self):
+        """Converty to dictionary method"""
         return {
             'title': self.title,
             'description': self.description,

@@ -53,8 +53,8 @@ class HBnBFacade:
         # Placeholder for logic to update a place
         return self.place_repo.update(place_id, place_data)
 
-    def get_place_by_owner(self, owner_id):
-        return self.user_repo.get_by_attribute('owner_id', owner_id)
+    # def get_place_by_owner(self, owner_id):
+    #     return self.user_repo.get_by_attribute('owner_id', owner_id)
 
 
 #---------- Amenity Methods ------------#
