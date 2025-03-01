@@ -15,24 +15,24 @@ class AmenityList(Resource):
     @api.response(400, 'Invalid input data')
     def post(self):
         """Register a new amenity"""
-        # Placeholder for the logic to register a new amenity
+        # register a new amenity
         amenity_data = api.payload
 
         existing_amenity = facade.get_amenity_by_name(amenity_data['name'])
         if existing_amenity:
-            return {'error': 'Name already registered'}, 400
+            return {'error': 'Amenity already registered'}, 400
 
         new_amenity = facade.create_amenity(amenity_data)
 
         if new_amenity:
-            return {'id': new_amenity.id, 'name': new_amenity.name}, 200
+            return {'id': new_amenity.id, 'name': new_amenity.name}, 201
         else:
             return {'error': 'Invalid input data'}, 400
 
     @api.response(200, 'List of amenities retrieved successfully')
     def get(self):
         """Retrieve a list of all amenities"""
-        # Placeholder for logic to return a list of all amenities
+        # return a list of all amenities
         all_amenity = facade.get_all_amenities()
         list_all_amenity = []
         for amenity in all_amenity:
@@ -48,7 +48,7 @@ class AmenityResource(Resource):
     @api.response(404, 'Amenity not found')
     def get(self, amenity_id):
         """Get amenity details by ID"""
-        # Placeholder for the logic to retrieve an amenity by ID
+        # retrieve an amenity by ID
         amenity = facade.get_amenity(amenity_id)
         if not amenity:
             return {'error': 'Amenity not found'}, 404
@@ -60,25 +60,34 @@ class AmenityResource(Resource):
     @api.response(400, 'Invalid input data')
     def put(self, amenity_id):
         """Update an amenity's information"""
-        # Placeholder for the logic to update an amenity by ID
+        # update an amenity by ID
         amenity_data = api.payload
         amenity_exists = facade.get_amenity(amenity_id)
-        
+
+        # Check if key names are correct
+        key_list = ['name']
+        if not all(name in key_list for name in amenity_data):
+            return {'error': 'Invalid input data'}, 400
+
         if amenity_exists:
-            facade.update_amenity(amenity_id, amenity_data)
-            return {"message": "Amenity updated successfully"}, 200
+            updated_amenity = facade.update_amenity(amenity_id, amenity_data)
+            return {
+                'message': 'Amenity updated successfully',
+                'id': str(updated_amenity.id),
+                'name': updated_amenity.name
+                }, 200
         else:
             return {'error': 'Amenity not found'}, 404
 
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
-# Register a New Amenity
-# curl -X POST http://127.0.0.1:5000/api/v1/amenities/ -H "Content-Type: application/json" -d '{"name": "Wi-Fi"}'
+#  Register a New Amenity
+#  curl -X POST http://127.0.0.1:5000/api/v1/amenities/ -H "Content-Type: application/json" -d '{"name": "Wi-Fi"}'
 
-# Retrieve All Amenities
-# curl -X GET http://127.0.0.1:5000/api/v1/amenities/ -H "Content-Type: application/json"
+#  Retrieve All Amenities
+#  curl -X GET http://127.0.0.1:5000/api/v1/amenities/ -H "Content-Type: application/json"
 
-# Retrieve Amenity Details
-# curl -X GET http://127.0.0.1:5000/api/v1/amenities/<amenity_id> -H "Content-Type: application/json"
+#  Retrieve Amenity Details
+#  curl -X GET http://127.0.0.1:5000/api/v1/amenities/<amenity_id> -H "Content-Type: application/json"
 
-# Update a Amenity’s Information
-# curl -X PUT http://127.0.0.1:5000/api/v1/amenities/<amenity_id> -H "Content-Type: application/json"
+#  Update a Amenity’s Information
+#  curl -X PUT http://127.0.0.1:5000/api/v1/amenities/<amenity_id> -H "Content-Type: application/json" -d '{"name": "Air Conditioning"}'

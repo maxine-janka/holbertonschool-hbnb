@@ -28,7 +28,12 @@ class UserList(Resource):
 
         new_user = facade.create_user(user_data)
 
-        return {'id': new_user.id, 'first_name': new_user.first_name, 'last_name': new_user.last_name, 'email': new_user.email}, 201
+        return {
+            'id': new_user.id,
+            'first_name': new_user.first_name,
+            'last_name': new_user.last_name,
+            'email': new_user.email
+            }, 201
 
     @api.response(200, 'User list retrieved successfully')
     def get(self):
@@ -53,7 +58,12 @@ class UserList(Resource):
             user = facade.get_user(user_id)
             if not user:
                 return {'error': 'User not found'}, 404
-            return {'id': user.id, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email}, 200
+            return {
+                'id': user.id,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'email': user.email
+                }, 200
 
         @api.expect(user_model)
         @api.response(200, 'User details updated successfully')
@@ -69,17 +79,21 @@ class UserList(Resource):
                     'id': str(updated_data.id),
                     'first_name': updated_data.first_name,
                     'last_name': updated_data.last_name,
-                    'email': updated_data.email}, 200
+                    'email': updated_data.email
+                    }, 200
             else:
-                return {'error': 'User does not exist'}, 404
+                return {'error': 'User does not exist'}, 400
 
 
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
 #  Register new user:
 #  curl -X POST http://127.0.0.1:5000/api/v1/users/ -H "Content-Type: application/json" -d '{"first_name": "John", "last_name": "Doe", "email": "john.doe@example.com"}'
+
 #  Get details by ID:
-#  curl -X GET "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json"
+#  curl -X GET "http://127.0.0.1:5000/api/v1/users/<user_id>" -H "Content-Type: application/json"
+
 #  List all users:
 #  curl -X GET "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json"
+
 #  Update user details:
-#  curl -X PUT http://127.0.0.1:5000/api/v1/users/0459685f-191f-488e-8b5c-277ca8309a17 -H "Content-Type: application/json" -d '{"first_name": "John", "last_name": "Do", "email": "john.doe@example.com"}'
+#  curl -X PUT http://127.0.0.1:5000/api/v1/users/<user_id> -H "Content-Type: application/json" -d '{"first_name": "Jane", "last_name": "Do", "email": "jane.do@example.com"}'

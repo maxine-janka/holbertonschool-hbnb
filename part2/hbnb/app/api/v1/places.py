@@ -59,6 +59,19 @@ class PlaceList(Resource):
         # Placeholder for the logic to register a new place
         place_data = api.payload
 
+        # Check if key names are correct
+        key_list = [
+            'id',
+            'title',
+            'description',
+            'price',
+            'latitude',
+            'longitude',
+            'owner'
+            ]
+        if not all(name in key_list for name in place_data):
+            return {'error': 'Invalid input data'}, 400
+
         owner_id = facade.get_user(place_data['owner'])
         # print(type(check_owner))
         # print(check_owner.id)
@@ -152,23 +165,35 @@ class PlaceResource(Resource):
         """Update a place's information"""
         # Placeholder for the logic to update a place by ID
         place_data = api.payload
+
+        # Check if key names are correct
+        key_list = ['title', 'description', 'price']
+        if not all(name in key_list for name in place_data):
+            return {'error': 'Invalid input data'}, 400
+
         place_exists = facade.get_place(place_id)
         if place_exists:
-            facade.update_place(place_id, place_data)
-            return {"message": "Place updated successfully"}, 200
+            updated_place = facade.update_place(place_id, place_data)
+            return {
+                "message": "Place updated successfully",
+                'id': str(updated_place.id),
+                'title': updated_place.title,
+                'description': updated_place.description,
+                'price': updated_place.price
+                }, 200
         else:
             return {'error': 'Place not found'}, 404
 
 
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
-# Register a New Place
-# curl -X POST http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json" -d '{"title": "Cozy", "description": "nice", "price": 100.0, "latitude": 37.7749, "longitude": -122.4194, "owner": "user_id"}'
+#  Register a New Place
+#  curl -X POST http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json" -d '{"title": "Cozy", "description": "nice", "price": 100.0, "latitude": 37.7749, "longitude": -122.4194, "owner": "<user_id>"}'
 
-# Retrieve All Places
-# curl -X GET http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json"
+#  Retrieve All Places
+#  curl -X GET http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json"
 
-# Retrieve Place Details
-# curl -X GET http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json"
+#  Retrieve Place Details
+#  curl -X GET http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json"
 
-# Update a Place’s Information
-# curl -X PUT http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json" -d '{"title": "Luxury Condo", "description": "An upscale place to stay", "price": 200.0}'
+#  Update a Place’s Information
+#  curl -X PUT http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json" -d '{"title": "Luxury Condo", "description": "An upscale place to stay", "price": 200.0}'

@@ -95,3 +95,21 @@ class PlaceReviewList(Resource):
         else:
             return {'Error': 'Place not found'}, 404
         
+        ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
+#  Register new Review:
+#  curl -X POST http://127.0.0.1:5000/api/v1/reviews/ -H "Content-Type: application/json" -d '{"text": "Great place to stay!", "rating": 5, "user_id": "<user_id>", "place_id": "<place_id>"}'
+
+#  Retrieve All Reviews:
+#  curl -X GET "http://127.0.0.1:5000/api/v1/reviews/" -H "Content-Type: application/json"
+
+#  Retrieve a Review’s Details:
+#  curl -X GET "http://127.0.0.1:5000/api/v1/reviews/<review_id>" -H "Content-Type: application/json" -d '{"id": "<review_id>", "text": "Great place to stay!", "rating": 5, "user_id": "<user_id>", "place_id": "<place_id>"}'
+
+#  Update a Review’s Information:
+#  curl -X PUT http://127.0.0.1:5000/api/v1/reviews/<review_id> -H "Content-Type: application/json" -d '{"text": "Amazing stay!", "rating": 4}'
+
+#  Delete a Review:
+#  curl -X DELETE http://127.0.0.1:5000/api/v1/<review_id> -H "Content-Type: application/json"
+
+#  Retrieve All Reviews for a Specific Place:
+#  curl -X GET http://127.0.0.1:5000/api/v1/places/<place_id>/reviews -H "Content-Type: application/json"
