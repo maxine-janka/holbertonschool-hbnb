@@ -171,4 +171,4 @@ class PlaceResource(Resource):
 # curl -X GET http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json"
 
 # Update a Place’s Information
-# curl -X PUT http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json"
+# curl -X PUT http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json" -d '{"title": "Luxury Condo", "description": "An upscale place to stay", "price": 200.0}'

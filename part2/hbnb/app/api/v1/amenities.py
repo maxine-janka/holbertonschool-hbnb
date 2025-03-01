@@ -72,13 +72,13 @@ class AmenityResource(Resource):
 
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
 # Register a New Amenity
-# curl -X POST http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json" -d '{"title": "Cozy", "description": "nice", "price": 100.0, "latitude": 37.7749, "longitude": -122.4194, "owner": "user_id"}'
+# curl -X POST http://127.0.0.1:5000/api/v1/amenities/ -H "Content-Type: application/json" -d '{"name": "Wi-Fi"}'
 
 # Retrieve All Amenities
-# curl -X GET http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json"
+# curl -X GET http://127.0.0.1:5000/api/v1/amenities/ -H "Content-Type: application/json"
 
 # Retrieve Amenity Details
-# curl -X GET http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json"
+# curl -X GET http://127.0.0.1:5000/api/v1/amenities/<amenity_id> -H "Content-Type: application/json"
 
 # Update a Amenity’s Information
-# curl -X PUT http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json"
+# curl -X PUT http://127.0.0.1:5000/api/v1/amenities/<amenity_id> -H "Content-Type: application/json"
