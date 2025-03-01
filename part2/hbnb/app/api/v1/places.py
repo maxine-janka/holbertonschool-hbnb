@@ -1,5 +1,6 @@
 from flask_restx import Namespace, Resource, fields
 from app.services.__init_ import facade
+from app.models.place import Place
 
 api = Namespace('places', description='Place operations')
 
@@ -37,27 +38,36 @@ class PlaceList(Resource):
         # Placeholder for the logic to register a new place
         place_data = api.payload
 
-# curl -X POST http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json" -d '{"title": "Cozy", "description": "nice", "price": 100.0, "latitude": 37.7749, "longitude": -122.4194, "owner": "5a871b30-ec65-445a-945b-722f1605de7c"}'
-
-        # Check if Owner owns place
-        # check_owner = place_data.get('owner_id')
-        # user = facade.get_user(check_owner)
         check_owner = facade.get_user(place_data['owner'])
+        print(type(check_owner))
+        print(check_owner.id)
         if not check_owner:
-            return {'error': 'Not Owner'}, 400
-        
-        place_data['owner'] = user
-        new_place = facade.create_place(user)
+            return {'error': 'Not Owner'}, 404
 
-        if new_place:
-            return {'id': new_place.id,
-                    'title': new_place.title,
-                    'description': new_place.description,
-                    'price': new_place.price,
-                    'latitude': new_place.latitude,
-                    'longitude': new_place.longitude,
-                    'owner': new_place.owner
-                }, 201
+        # Pass directly to Place Class
+        new_place = Place(
+                title=place_data['title'],
+                description=place_data.get('description'),
+                price=place_data['price'],
+                latitude=place_data['latitude'],
+                longitude=place_data['longitude'],
+                owner=check_owner
+            )
+        # Convert to dictionary
+        place_dict = new_place.to_dict()
+        # Add place
+        add_place = facade.create_place(place_dict)
+
+        if add_place:
+            return {
+                'id': add_place.id,
+                'title': add_place.title,
+                'description': add_place.description,
+                'price': add_place.price,
+                'latitude': add_place.latitude,
+                'longitude': add_place.longitude,
+                'owner': check_owner.id
+            }, 201
         else:
             return {'error': 'Invalid input data'}, 400
 
@@ -74,6 +84,7 @@ class PlaceList(Resource):
                 'latitude': place.latitude,
                 'longitude': place.longitude,
             })
+        return list_all_places, 200
 
 @api.route('/<place_id>')
 class PlaceResource(Resource):
@@ -83,8 +94,6 @@ class PlaceResource(Resource):
         """Get place details by ID"""
         # Placeholder for the logic to retrieve a place by ID, including associated owner and amenities
         place = facade.get_place(place_id)
-        user = facade.get_user(user_model.get(id))
-        amenity = facade.get_amenity(amenity_model.get(id))
 
         if not place:
             return {'error': 'Place not found'}, 404
@@ -147,3 +156,5 @@ place_model = api.model('Place', {
     'amenities': fields.List(fields.Nested(amenity_model), description='List of amenities'),
     'reviews': fields.List(fields.Nested(review_model), description='List of reviews')
 })
+
+# curl -X POST http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json" -d '{"title": "Cozy", "description": "nice", "price": 100.0, "latitude": 37.7749, "longitude": -122.4194, "owner": "5a871b30-ec65-445a-945b-722f1605de7c"}'
