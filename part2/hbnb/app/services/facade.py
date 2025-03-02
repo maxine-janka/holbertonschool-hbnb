@@ -3,6 +3,7 @@ from app.models.user import User
 from app.models.amenity import Amenity
 from app.models.place import Place
 from app.models.review import Review
+import math
 
 class HBnBFacade:
     def __init__(self):
@@ -38,6 +39,8 @@ class HBnBFacade:
     def create_place(self, place_data):
     # Create a place, including validation for price, latitude, and longitude
         place = Place(**place_data)
+        # Round the price to two decimal places
+        place.price = round(place.price, 2)
         self.place_repo.add(place)
         return place
 
@@ -53,8 +56,11 @@ class HBnBFacade:
         # Placeholder for logic to update a place
         return self.place_repo.update(place_id, place_data)
 
-    # def get_place_by_owner(self, owner_id):
-    #     return self.user_repo.get_by_attribute('owner_id', owner_id)
+    def get_place_by_latitude(self, latitude):
+        return self.place_repo.get_by_attribute('latitude', latitude)
+
+    def get_place_by_longitude(self, longitude):
+        return self.place_repo.get_by_attribute('longitude', longitude)
 
 
 #---------- Amenity Methods ------------#

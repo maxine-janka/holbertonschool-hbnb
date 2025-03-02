@@ -59,16 +59,15 @@ class PlaceList(Resource):
         # Placeholder for the logic to register a new place
         place_data = api.payload
 
+        # Check if place exists
+        existing_latitude = facade.get_place_by_latitude(place_data['latitude'])
+        existing_longitude = facade.get_place_by_longitude(place_data['longitude'])
+        if existing_latitude and existing_longitude:
+            return {'error': 'Place already registered'}, 400
+
         # Check if key names are correct
-        key_list = [
-            'id',
-            'title',
-            'description',
-            'price',
-            'latitude',
-            'longitude',
-            'owner'
-            ]
+        key_list = ['id', 'title', 'description', 'price',
+                    'latitude', 'longitude', 'owner']
         if not all(name in key_list for name in place_data):
             return {'error': 'Invalid input data'}, 400
 

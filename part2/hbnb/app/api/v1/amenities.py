@@ -18,6 +18,7 @@ class AmenityList(Resource):
         # register a new amenity
         amenity_data = api.payload
 
+        # Check if amenity exists
         existing_amenity = facade.get_amenity_by_name(amenity_data['name'])
         if existing_amenity:
             return {'error': 'Amenity already registered'}, 400
