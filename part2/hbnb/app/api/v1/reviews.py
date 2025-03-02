@@ -22,14 +22,14 @@ class ReviewList(Resource):
         # Placeholder for the logic to register a new review
         review_data = api.payload
 
-        # Check User id
-        owner_id = facade.get_user(review_data['user'])
+        # Check User Class
+        owner_id = facade.get_user(review_data['user_id'])
         if not owner_id:
             return {'error': 'Not User'}, 404
 
-        # Check Place id
-        place_id = facade.get_place(review_data['place'])
-        if not place_id:
+        # Check Place Class
+        new_place = facade.get_place(review_data['place_id'])
+        if not new_place:
             return {'error': 'Not Place'}, 404
 
         # Pass directly to Review Class
@@ -37,16 +37,16 @@ class ReviewList(Resource):
             text=review_data['text'],
             rating=review_data['rating'],
             user=owner_id,
-            place=place_id
+            place=new_place
         )
 
         # Convert to dictionary
         review_dict = new_review.to_dict()
         # Add new review
-        add_review = facade.create_place(review_dict)
+        add_review = facade.create_review(review_dict)
 
         if add_review:
-            return {'text': add_review.text, 'rating': add_review.rating, 'place': place_id.id, 'user': owner_id.id}, 201
+            return {'id': add_review.id, 'text': add_review.text, 'rating': add_review.rating, 'place': new_place.id, 'user': owner_id.id}, 201
         else:
             return {'error': 'Invalid input data'}, 400
 
