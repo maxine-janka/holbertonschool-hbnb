@@ -46,7 +46,7 @@ class ReviewList(Resource):
         add_review = facade.create_review(review_dict)
 
         if add_review:
-            return {'id': str(add_review.id), 'text': add_review.text, 'rating': add_review.rating, 'place': new_place.id, 'user': owner_id.id}, 201
+            return {'id': str(add_review.id), 'text': add_review.text, 'rating': add_review.rating, 'user': owner_id.id, 'place': new_place.id}, 201
         else:
             return {'error': 'Invalid input data'}, 400
 
@@ -78,6 +78,8 @@ class ReviewResource(Resource):
                 'id': str(review.id),
                 'text': review.text,
                 'rating': review.rating,
+                'user_id': str(review.user.id),
+                'place_id': str(review.place.id)
             }, 200
         else:
             return {'Error': 'Review not found'}, 404
@@ -91,7 +93,6 @@ class ReviewResource(Resource):
         review_exist = facade.get_review(review_id)
         review_data = api.payload
 
-        # Pass directly to Review Class
         new_review = {
             'text' : review_data['text'],
             'rating': review_data['rating']
@@ -100,8 +101,7 @@ class ReviewResource(Resource):
         if review_exist:
             facade.update_review(review_id, new_review)
             return {"message": "Review updated successfully"}, 200
-        else: 
-            return {'Error': 'Review not found'}, 404
+        return {'Error': 'Review not found'}, 404
 
 
     @api.response(200, 'Review deleted successfully')
@@ -112,8 +112,10 @@ class ReviewResource(Resource):
         review_exist = facade.get_review(review_id)
         if review_exist:
             facade.delete_review(review_id)
+
             return {"message": "Review deleted successfully"}, 200
         return {'Error': 'Review not found'}, 404
+
 
 @api.route('/places/<place_id>/reviews')
 class PlaceReviewList(Resource):
@@ -148,10 +150,10 @@ class PlaceReviewList(Resource):
 #  curl -X GET "http://127.0.0.1:5000/api/v1/reviews/<review_id>" -H "Content-Type: application/json"
 
 #  Update a Review’s Information:
-#  curl -X PUT http://127.0.0.1:5000/api/v1/reviews/<review_id> -H "Content-Type: application/json" -d '{"text": "Amazing stay!", "rating": 4}'
+#  curl -X PUT "http://127.0.0.1:5000/api/v1/reviews/<review_id>" -H "Content-Type: application/json" -d '{"text": "Amazing stay!", "rating": 4}'
 
 #  Delete a Review:
-#  curl -X DELETE http://127.0.0.1:5000/api/v1/<review_id> -H "Content-Type: application/json"
+#  curl -X DELETE "http://127.0.0.1:5000/api/v1/reviews/<review_id>" -H "Content-Type: application/json"
 
 #  Retrieve All Reviews for a Specific Place:
-#  curl -X GET http://127.0.0.1:5000/api/v1/places/<place_id>/reviews -H "Content-Type: application/json"
+#  curl -X GET "http://127.0.0.1:5000/api/v1/places/<place_id>/reviews" -H "Content-Type: application/json"
