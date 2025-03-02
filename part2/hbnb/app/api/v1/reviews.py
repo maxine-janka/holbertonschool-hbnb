@@ -46,7 +46,7 @@ class ReviewList(Resource):
         add_review = facade.create_review(review_dict)
 
         if add_review:
-            return {'id': str(add_review.id), 'text': add_review.text, 'rating': add_review.rating, 'place': new_place.id, 'user': owner_id.id}, 201
+            return {'id': str(add_review.id), 'text': add_review.text, 'rating': add_review.rating, 'user': owner_id.id, 'place': new_place.id}, 201
         else:
             return {'error': 'Invalid input data'}, 400
 
@@ -72,16 +72,14 @@ class ReviewResource(Resource):
         """Get review details by ID"""
         # Placeholder for the logic to retrieve a review by ID
         review = facade.get_review(review_id)
-        user = facade.get_user(review.user_id)
-        place = facade.get_place(review.place_id)
 
         if review:
             return {
                 'id': str(review.id),
                 'text': review.text,
                 'rating': review.rating,
-                'user_id': str(user.id),
-                'place_id': str(place.id)
+                'user_id': str(review.user.id),
+                'place_id': str(review.place.id)
             }, 200
         else:
             return {'Error': 'Review not found'}, 404
@@ -96,7 +94,9 @@ class ReviewResource(Resource):
         review_data = api.payload
         if review_exist:
             review_up = facade.update_review(review_id, review_data)
-            return {'text': review_up.text, 'rating': review_up.rating, 'place': review_up.place, 'user': review_up.user }, 200
+            return {'message': 'Review updated successfully',
+                    'id': review_up.id, 'text': review_up.text, 'rating': review_up.rating
+                    }, 200
         else: 
             return {'Error': 'Review not found'}, 404
 
@@ -109,7 +109,7 @@ class ReviewResource(Resource):
         review_exist = facade.get_review(review_id)
         if review_exist:
             facade.delete_review(review_id)
-            return 200
+            return {'message': 'Review deleted successfully', 'id': review_exist.id, 'text': review_exist.text, 'rating': review_exist.rating}, 200
         else:
             return {'Error': 'Review not found'}, 404
 
@@ -139,10 +139,10 @@ class PlaceReviewList(Resource):
 #  curl -X GET "http://127.0.0.1:5000/api/v1/reviews/<review_id>" -H "Content-Type: application/json"
 
 #  Update a Review’s Information:
-#  curl -X PUT http://127.0.0.1:5000/api/v1/reviews/<review_id> -H "Content-Type: application/json" -d '{"text": "Amazing stay!", "rating": 4}'
+#  curl -X PUT "http://127.0.0.1:5000/api/v1/reviews/<review_id>" -H "Content-Type: application/json" -d '{"text": "Amazing stay!", "rating": 4}'
 
 #  Delete a Review:
-#  curl -X DELETE http://127.0.0.1:5000/api/v1/<review_id> -H "Content-Type: application/json"
+#  curl -X DELETE "http://127.0.0.1:5000/api/v1/reviews/<review_id>" -H "Content-Type: application/json"
 
 #  Retrieve All Reviews for a Specific Place:
-#  curl -X GET http://127.0.0.1:5000/api/v1/places/<place_id>/reviews -H "Content-Type: application/json"
+#  curl -X GET "http://127.0.0.1:5000/api/v1/places/<place_id>/reviews" -H "Content-Type: application/json"
