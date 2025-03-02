@@ -46,7 +46,7 @@ class ReviewList(Resource):
         add_review = facade.create_review(review_dict)
 
         if add_review:
-            return {'id': add_review.id, 'text': add_review.text, 'rating': add_review.rating, 'place': new_place.id, 'user': owner_id.id}, 201
+            return {'id': str(add_review.id), 'text': add_review.text, 'rating': add_review.rating, 'place': new_place.id, 'user': owner_id.id}, 201
         else:
             return {'error': 'Invalid input data'}, 400
 
@@ -58,10 +58,9 @@ class ReviewList(Resource):
         list_all_reviews = []
         for review in all_reviews:
             list_all_reviews.append({
+                'id': str(review.id),
                 'text': review.text,
-                'rating' : review.rating,
-                'place' : review.place,
-                'user' : review.user
+                'rating' : review.rating
             })
         return list_all_reviews, 200
 
@@ -73,8 +72,17 @@ class ReviewResource(Resource):
         """Get review details by ID"""
         # Placeholder for the logic to retrieve a review by ID
         review = facade.get_review(review_id)
-        if review: 
-            return review, 200
+        user = facade.get_user(review.user_id)
+        place = facade.get_place(review.place_id)
+
+        if review:
+            return {
+                'id': str(review.id),
+                'text': review.text,
+                'rating': review.rating,
+                'user_id': str(user.id),
+                'place_id': str(place.id)
+            }, 200
         else:
             return {'Error': 'Review not found'}, 404
 
@@ -128,7 +136,7 @@ class PlaceReviewList(Resource):
 #  curl -X GET "http://127.0.0.1:5000/api/v1/reviews/" -H "Content-Type: application/json"
 
 #  Retrieve a Review’s Details:
-#  curl -X GET "http://127.0.0.1:5000/api/v1/reviews/<review_id>" -H "Content-Type: application/json" -d '{"id": "<review_id>", "text": "Great place to stay!", "rating": 5, "user_id": "<user_id>", "place_id": "<place_id>"}'
+#  curl -X GET "http://127.0.0.1:5000/api/v1/reviews/<review_id>" -H "Content-Type: application/json"
 
 #  Update a Review’s Information:
 #  curl -X PUT http://127.0.0.1:5000/api/v1/reviews/<review_id> -H "Content-Type: application/json" -d '{"text": "Amazing stay!", "rating": 4}'

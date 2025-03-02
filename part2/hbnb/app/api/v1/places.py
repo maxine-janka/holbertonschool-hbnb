@@ -137,7 +137,7 @@ class PlaceResource(Resource):
             'latitude': place.latitude,
             'longitude': place.longitude,
             'owner': {
-                'id': user.id,
+                'id': str(user.id),
                 'first_name': user.first_name,
                 'last_name': user.last_name,
                 'email': user.email
