@@ -28,7 +28,9 @@ class ReviewList(Resource):
             return {'error': 'Not User'}, 404
 
         # Check Place id
-
+        place_id = facade.get_place(review_data['place'])
+        if not place_id:
+            return {'error': 'Not Place'}, 404
 
         # Pass directly to Review Class
         new_review = Review(

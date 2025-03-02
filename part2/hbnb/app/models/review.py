@@ -57,10 +57,8 @@ class Review(BaseModel):
     def to_dict(self):
         """Converty to dictionary method"""
         return {
-            'title': self.title,
-            'description': self.description,
-            'price': self.price,
-            'latitude': self.latitude,
-            'longitude': self.longitude,
-            'owner': self.owner.id
+            'text': self.text,
+            'rating' : self.rating,
+            'place' : self.place,
+            'user' : self.user
         }
