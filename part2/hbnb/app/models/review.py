@@ -53,3 +53,14 @@ class Review(BaseModel):
             self._user = value
         else:
             raise ValueError("Review: Owner must be validated")
+
+    def to_dict(self):
+        """Converty to dictionary method"""
+        return {
+            'title': self.title,
+            'description': self.description,
+            'price': self.price,
+            'latitude': self.latitude,
+            'longitude': self.longitude,
+            'owner': self.owner.id
+        }
