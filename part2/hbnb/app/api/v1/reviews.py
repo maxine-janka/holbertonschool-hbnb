@@ -72,16 +72,12 @@ class ReviewResource(Resource):
         """Get review details by ID"""
         # Placeholder for the logic to retrieve a review by ID
         review = facade.get_review(review_id)
-        user = facade.get_user(review.user_id)
-        place = facade.get_place(review.place_id)
 
         if review:
             return {
                 'id': str(review.id),
                 'text': review.text,
                 'rating': review.rating,
-                'user_id': str(user.id),
-                'place_id': str(place.id)
             }, 200
         else:
             return {'Error': 'Review not found'}, 404
@@ -94,9 +90,16 @@ class ReviewResource(Resource):
         """Update a review's information"""
         review_exist = facade.get_review(review_id)
         review_data = api.payload
+
+        # Pass directly to Review Class
+        new_review = {
+            'text' : review_data['text'],
+            'rating': review_data['rating']
+        }
+        
         if review_exist:
-            review_up = facade.update_review(review_id, review_data)
-            return {'text': review_up.text, 'rating': review_up.rating, 'place': review_up.place, 'user': review_up.user }, 200
+            facade.update_review(review_id, new_review)
+            return {"message": "Review updated successfully"}, 200
         else: 
             return {'Error': 'Review not found'}, 404
 
@@ -109,9 +112,8 @@ class ReviewResource(Resource):
         review_exist = facade.get_review(review_id)
         if review_exist:
             facade.delete_review(review_id)
-            return 200
-        else:
-            return {'Error': 'Review not found'}, 404
+            return {"message": "Review deleted successfully"}, 200
+        return {'Error': 'Review not found'}, 404
 
 @api.route('/places/<place_id>/reviews')
 class PlaceReviewList(Resource):
@@ -121,12 +123,19 @@ class PlaceReviewList(Resource):
         """Get all reviews for a specific place"""
         # Placeholder for logic to return a list of reviews for a place
         review_by_attr = []
-        while facade.get_reviews_by_place(place_id):
-            review_by_attr.append(facade.get_reviews_by_place)
+        end = False
+        while not end:
+            review_item = facade.get_reviews_by_place(place_id)
+            if review_item:
+                review_by_attr.append({
+                    "id": review_item.id,
+                    "text": review_item.text,
+                    "rating": review_item.rating
+                })
+            end = True
         if review_by_attr:
             return review_by_attr, 200
-        else:
-            return {'Error': 'Place not found'}, 404
+        return {'Error': 'Place not found'}, 404
         
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
 #  Register new Review:
