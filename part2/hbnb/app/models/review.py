@@ -3,11 +3,11 @@ from app.models.place import Place
 from app.models.user import User
 
 class Review(BaseModel):
-    def __init__(self, text, rating, place, user):
+    def __init__(self, text, rating, place_id, user):
         super().__init__()
         self.text = text
         self.rating = rating
-        self.place = place
+        self.place_id = place_id
         self.user = user
 
     @property
@@ -33,13 +33,13 @@ class Review(BaseModel):
             raise ValueError("Ratings must be between 1 and 5") 
 
     @property
-    def place(self):
-        return self._place
+    def place_id(self):
+        return self._place_id
 
-    @place.setter
-    def place(self, value):
+    @place_id.setter
+    def place_id(self, value):
         if isinstance(value, Place):
-            self._place = value
+            self._place_id = value
         else:
             raise ValueError("Review: Place does not exist")
 
@@ -59,6 +59,6 @@ class Review(BaseModel):
         return {
             'text': self.text,
             'rating' : self.rating,
-            'place' : self.place,
+            'place_id' : self.place_id,
             'user' : self.user
         }

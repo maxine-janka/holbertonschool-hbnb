@@ -145,6 +145,28 @@ class PlaceResource(Resource):
             "amenities": amenity_data
         }, 200
 
+    @api.route('/<place_id>/reviews')
+    class PlaceResource(Resource):
+        @api.response(200, 'List of reviews for the place retrieved successfully')
+        @api.response(404, 'Place not found')
+        def get(self, place_id):
+            """Get all reviews for a specific place"""
+            reviews = facade.get_all_reviews()
+            place = facade.get_place(place_id)
+
+            if not place:
+                return {'error': 'Place not found'}, 404
+
+            place_reviews = []
+            for review in reviews:
+                if review.place_id == place:
+                    place_reviews.append({
+                        'id': str(review.id),
+                        'text': review.text,
+                        'rating': review.rating
+                    })
+            return place_reviews, 200
+
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
     @api.response(404, 'Place not found')
@@ -176,7 +198,6 @@ class PlaceResource(Resource):
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
 #  Register a New Place
 #  curl -X POST http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json" -d '{"title": "Cozy", "description": "nice", "price": 100.0, "latitude": 37.7749, "longitude": -122.4194, "owner": "<user_id>"}'
-
 #  Retrieve All Places
 #  curl -X GET http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json"
 
@@ -185,3 +206,6 @@ class PlaceResource(Resource):
 
 #  Update a Place’s Information
 #  curl -X PUT http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json" -d '{"title": "Luxury Condo", "description": "An upscale place to stay", "price": 200.0}'
+
+#  Retrieve All Reviews for a Specific Place:
+#  curl -X GET "http://127.0.0.1:5000/api/v1/places/<place_id>/reviews" -H "Content-Type: application/json"

@@ -37,7 +37,7 @@ class ReviewList(Resource):
             text=review_data['text'],
             rating=review_data['rating'],
             user=owner_id,
-            place=new_place
+            place_id=new_place
         )
 
         # Convert to dictionary
@@ -97,7 +97,7 @@ class ReviewResource(Resource):
             'text' : review_data['text'],
             'rating': review_data['rating']
         }
-        
+
         if review_exist:
             facade.update_review(review_id, new_review)
             return {"message": "Review updated successfully"}, 200
@@ -117,28 +117,24 @@ class ReviewResource(Resource):
         return {'Error': 'Review not found'}, 404
 
 
-@api.route('/places/<place_id>/reviews')
-class PlaceReviewList(Resource):
-    @api.response(200, 'List of reviews for the place retrieved successfully')
-    @api.response(404, 'Place not found')
-    def get(self, place_id):
-        """Get all reviews for a specific place"""
-        # Placeholder for logic to return a list of reviews for a place
-        review_by_attr = []
-        end = False
-        while not end:
-            review_item = facade.get_reviews_by_place(place_id)
-            if review_item:
-                review_by_attr.append({
-                    "id": review_item.id,
-                    "text": review_item.text,
-                    "rating": review_item.rating
-                })
-            end = True
-        if review_by_attr:
-            return review_by_attr, 200
-        return {'Error': 'Place not found'}, 404
-        
+# @api.route('/places/<place_id>/reviews')
+# class PlaceReviewList(Resource):
+#     @api.response(200, 'List of reviews for the place retrieved successfully')
+#     @api.response(404, 'Place not found')
+#     def get(self, place_id):
+#         """Get all reviews for a specific place"""
+#         reviews = facade.get_all_reviews()
+#         place = facade.get_place(place_id)
+#         place_reviews = []
+#         for review in reviews:
+#             if review.place_id == place:
+#                 place_reviews.append({
+#                     'id': str(review.id),
+#                     'text': review.text,
+#                     'rating': review.rating
+#                 })
+#         return place_reviews, 200
+
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
 #  Register new Review:
 #  curl -X POST http://127.0.0.1:5000/api/v1/reviews/ -H "Content-Type: application/json" -d '{"text": "Great place to stay!", "rating": 5, "user_id": "<user_id>", "place_id": "<place_id>"}'
