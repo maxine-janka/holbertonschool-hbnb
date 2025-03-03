@@ -30,8 +30,7 @@ class HBnBFacade:
         return self.user_repo.update(user_id, user_data)
 
     def delete_user(self, user_id):
-        pass
-        #too be implemented in part 3
+        return self.user_repo.delete(user_id)
 
 
 #---------- Place Methods ------------#
@@ -60,6 +59,9 @@ class HBnBFacade:
 
     def get_place_by_longitude(self, longitude):
         return self.place_repo.get_by_attribute('longitude', longitude)
+    
+    def delete_place(self, place_id):
+        return self.place_repo.delete(place_id)
 
 
 #---------- Amenity Methods ------------#
@@ -85,6 +87,8 @@ class HBnBFacade:
     # Get amenity name attribute
         return self.amenity_repo.get_by_attribute('name', name)
 
+    def delete_amenity(self, amenity_id):
+        return self.amenity_repo.delete(amenity_id)
 
 #---------- Review Methods ------------#
     def create_review(self, review_data):
