@@ -25,12 +25,16 @@ class ReviewList(Resource):
         # Check User Class
         owner_id = facade.get_user(review_data['user_id'])
         if not owner_id:
-            return {'error': 'Not User'}, 404
+            return {'error': 'Not Owner'}, 404
 
         # Check Place Class
         new_place = facade.get_place(review_data['place_id'])
         if not new_place:
             return {'error': 'Not Place'}, 404
+
+        # Owner cannot review own place
+        if owner_id.id == new_place.owner:
+            return {'error': 'Owner cannot review own place'}
 
         # Pass directly to Review Class
         new_review = Review(
