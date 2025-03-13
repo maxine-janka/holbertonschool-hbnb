@@ -1,18 +1,24 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 from flask_restx import Api
 from app.api.v1.users import api as users_ns
 from app.api.v1.amenities import api as amenities_ns
 from app.api.v1.places import api as places_ns
 from app.api.v1.reviews import api as reviews_ns
+import config
 
 # from app.services.facade import HBnBFacade
 
 # facade = HBnBFacade()
 
-def create_app():
+db = SQLAlchemy()
+
+def create_app(config_class=config.DevelopmentConfig):
     app = Flask(__name__)
     api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API', doc='/api/v1/')
 
+    db.init_app(app)
+    
     # Register the users namespace
     api.add_namespace(users_ns, path='/api/v1/users')
     api.add_namespace(amenities_ns, path='/api/v1/amenities')
