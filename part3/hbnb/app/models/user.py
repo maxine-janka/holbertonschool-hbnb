@@ -1,6 +1,7 @@
+from app import db
 import re
 from app.models.basemodel import BaseModel
-from app import db, bcrypt
+
 
 
 class User(BaseModel):
