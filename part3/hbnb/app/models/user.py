@@ -12,7 +12,7 @@ class User(BaseModel):
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(128), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
-
+    
     @property
     def first_name(self):
         return self._first_name
@@ -73,10 +73,10 @@ class User(BaseModel):
         """User can add a review"""
         self.reviews.append(review)
     
-    def hash_password(self, password):
-        """Hash the password before storing it."""
-        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+    # def hash_password(self, password):
+    #     """Hash the password before storing it."""
+    #     self.password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-    def verify_password(self, password):
-        """Verify the hashed password."""
-        return bcrypt.check_password_hash(self.password, password)
+    # def verify_password(self, password):
+    #     """Verify the hashed password."""
+    #     return bcrypt.check_password_hash(self.password, password)
