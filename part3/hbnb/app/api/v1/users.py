@@ -45,7 +45,7 @@ class UserList(Resource):
                 'id': str(user.id),
                 'first_name': user.first_name,
                 'last_name': user.last_name,
-                'email': user.email
+                'email': user.email,
             })
         return list_all_users, 200
 
@@ -62,7 +62,8 @@ class UserList(Resource):
                 'id': user.id,
                 'first_name': user.first_name,
                 'last_name': user.last_name,
-                'email': user.email
+                'email': user.email,
+                'password': user.password
                 }, 200
 
         @api.expect(user_model)
@@ -87,7 +88,7 @@ class UserList(Resource):
 
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
 #  Register new user:
-#  curl -X POST http://127.0.0.1:5000/api/v1/users/ -H "Content-Type: application/json" -d '{"first_name": "John", "last_name": "Doe", "email": "john.doe@example.com"}'
+#  curl -X POST http://127.0.0.1:5000/api/v1/users/ -H "Content-Type: application/json" -d '{"first_name": "John", "last_name": "Doe", "email": "john.doe@example.com", }'
 
 #  Get details by ID:
 #  curl -X GET "http://127.0.0.1:5000/api/v1/users/<user_id>" -H "Content-Type: application/json"
