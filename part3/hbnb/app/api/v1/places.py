@@ -116,7 +116,7 @@ class PlaceResource(Resource):
         """Get place details by ID"""
         # Placeholder for the logic to retrieve a place by ID, including associated owner and amenities
         place = facade.get_place(place_id)
-        user = facade.get_user(place.owner)
+        user = facade.get_user(place.owner.id)
         all_amenity = facade.get_all_amenities()
 
         if not place:
