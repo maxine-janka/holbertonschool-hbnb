@@ -1,6 +1,7 @@
 from flask_restx import Namespace, Resource, fields
 from app.services.__init_ import facade
 from app.models.review import Review
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 api = Namespace('reviews', description='Review operations')
 
@@ -17,6 +18,7 @@ class ReviewList(Resource):
     @api.expect(review_model)
     @api.response(201, 'Review successfully created')
     @api.response(400, 'Invalid input data')
+    @jwt_required()
     def post(self):
         """Register a new review"""
         # Placeholder for the logic to register a new review
@@ -27,6 +29,11 @@ class ReviewList(Resource):
         if not owner_id:
             return {'error': 'Not Owner'}, 404
 
+        # user authenticate
+        current_user = get_jwt_identity()
+        if owner_id.id != current_user['id']:
+            return {'error': 'Unauthorized User'}, 401
+
         # Check Place Class
         new_place = facade.get_place(review_data['place_id'])
         if not new_place:
@@ -34,7 +41,7 @@ class ReviewList(Resource):
 
         # Owner cannot review own place
         if owner_id.id == new_place.owner:
-            return {'error': 'Owner cannot review own place'}
+            return {'error': 'You cannot review your own place'}, 400
 
         # Pass directly to Review Class
         new_review = Review(
@@ -49,8 +56,22 @@ class ReviewList(Resource):
         # Add new review
         add_review = facade.create_review(review_dict)
 
+        # Check place is not owned by user
+        if new_place.id == new_review.place_id:
+            return {'error': 'Place belongs to User'}
+        
+        # Check user has not already reviewed this place
+        if add_review.user == owner_id.id:
+            return {'error': 'You have already reviewed this place.'}, 400
+
         if add_review:
-            return {'id': str(add_review.id), 'text': add_review.text, 'rating': add_review.rating, 'user': owner_id.id, 'place': new_place.id}, 201
+            return {
+                'id': str(add_review.id),
+                'text': add_review.text,
+                'rating': add_review.rating,
+                'user': owner_id.id,
+                'place': new_place.id
+                }, 201
         else:
             return {'error': 'Invalid input data'}, 400
 
