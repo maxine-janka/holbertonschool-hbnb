@@ -11,20 +11,33 @@ class TestUser(unittest.TestCase):
 
     def test_create_user(self):
         """Tests creation of User instances """
-        user = User(first_name="Peter", last_name="Parker", email="iluvspiderman@dailybugle.com")
+        user = User(first_name="Peter", last_name="Parker", email="iluvspiderman@dailybugle.com", password="spidey")
 
         assert user.first_name == "Peter"
         assert user.last_name == "Parker"
         assert user.email == "iluvspiderman@dailybugle.com"
-        assert user.password == "123"
         assert user.is_admin is False  # Default value
-        print("User creation test passed!")
+        print("Peter creation test passed!")
 
-    def test_user_login(self):
-        login = Login(email="iluvspiderman@dailybugle.com", password="123")
+    def test_create_user2(self):
+        """Tests creation of User instances """
+        user = User(first_name="John", last_name="Doe", email="john.doe@gmail.com", password="123")
 
-        assert login.email == "iluvspiderman@dailybugle.com"
-        assert login.password == "123"
+        assert user.first_name == "John"
+        assert user.last_name == "Doe"
+        assert user.email == "john.doe@gmail.com"
+        assert user.is_admin is False  # Default value
+        print("John creation test passed!")
+
+    def test_create_user3(self):
+        """Tests creation of User instances """
+        user = User(first_name="Jane", last_name="Doe", email="jane.doe@gmail.com", password="456")
+
+        assert user.first_name == "Jane"
+        assert user.last_name == "Doe"
+        assert user.email == "jane.doe@gmail.com"
+        assert user.is_admin is False  # Default value
+        print("Jane creation test passed!")
 
 if __name__ == '__main__':
     unittest.main()

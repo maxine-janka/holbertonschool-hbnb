@@ -40,7 +40,7 @@ class ReviewList(Resource):
             return {'error': 'Not Place'}, 404
 
         # Owner cannot review own place
-        if owner_id.id == new_place.owner:
+        if owner_id.id == new_place.owner.id:
             return {'error': 'You cannot review your own place'}, 400
 
         # Pass directly to Review Class
@@ -123,7 +123,7 @@ class ReviewResource(Resource):
         # user authenticate
         current_user = get_jwt_identity()
         if review_exist.user.id != current_user['id']:
-            return {'error': 'Unauthorized User'}, 403
+            return {'Unauthorized action'}, 403
 
         if review_exist:
             facade.update_review(review_id, new_review)
@@ -133,6 +133,7 @@ class ReviewResource(Resource):
 
     @api.response(200, 'Review deleted successfully')
     @api.response(404, 'Review not found')
+    @jwt_required()
     def delete(self, review_id):
         """Delete a review"""
         # Placeholder for the logic to delete a review
@@ -140,8 +141,8 @@ class ReviewResource(Resource):
 
         # user authenticate
         current_user = get_jwt_identity()
-        if review_exist.user.id != current_user['id']:
-            return {'error': 'Unauthorized User'}, 403
+        if review_exist.user != current_user['id']:
+            return {'error': 'Unauthorized action'}, 403
 
         if review_exist:
             facade.delete_review(review_id)
@@ -170,7 +171,7 @@ class ReviewResource(Resource):
 
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
 #  Register new Review:
-#  curl -X POST http://127.0.0.1:5000/api/v1/reviews/ -H "Content-Type: application/json" -d '{"text": "Great place to stay!", "rating": 5, "user_id": "<user_id>", "place_id": "<place_id>"}'
+#  curl -X POST http://127.0.0.1:5000/api/v1/reviews/ -d '{"text": "Great place to stay!", "rating": 5, "user_id": "<user_id>", "place_id": "<place_id>"}' -H "Authorization: Bearer <your_token>" -H "Content-Type: application/json"
 
 #  Retrieve All Reviews:
 #  curl -X GET "http://127.0.0.1:5000/api/v1/reviews/" -H "Content-Type: application/json"
@@ -179,10 +180,10 @@ class ReviewResource(Resource):
 #  curl -X GET "http://127.0.0.1:5000/api/v1/reviews/<review_id>" -H "Content-Type: application/json"
 
 #  Update a Review’s Information:
-#  curl -X PUT "http://127.0.0.1:5000/api/v1/reviews/<review_id>" -H "Content-Type: application/json" -d '{"text": "Amazing stay!", "rating": 4}'
+#  curl -X PUT "http://127.0.0.1:5000/api/v1/reviews/<review_id>" -d '{"text": "Amazing stay!", "rating": 4}' -H "Authorization: Bearer <your_token>" -H "Content-Type: application/json"
 
 #  Delete a Review:
-#  curl -X DELETE "http://127.0.0.1:5000/api/v1/reviews/<review_id>" -H "Content-Type: application/json"
+#  curl -X DELETE "http://127.0.0.1:5000/api/v1/reviews/<review_id>" -H "Content-Type: application/json" -H "Authorization: Bearer <your_token>"
 
 #  Retrieve All Reviews for a Specific Place:
 #  curl -X GET "http://127.0.0.1:5000/api/v1/places/<place_id>/reviews" -H "Content-Type: application/json"

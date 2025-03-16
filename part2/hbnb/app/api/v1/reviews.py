@@ -33,7 +33,7 @@ class ReviewList(Resource):
             return {'error': 'Not Place'}, 404
 
         # Owner cannot review own place
-        if owner_id.id == new_place.owner:
+        if owner_id.id == new_place.owner.id:
             return {'error': 'Owner cannot review own place'}
 
         # Pass directly to Review Class

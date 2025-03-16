@@ -76,17 +76,15 @@ class UserList(Resource):
             user_data = api.payload
             user_exists = facade.get_user(user_id)
 
-            # user authenticate
+            # If the user is trying to modify another user's data
             current_user = get_jwt_identity()
             if user_exists.id != current_user['id']:
-                return {'error': 'Unauthorized User'}, 401
-
-            # If the user is trying to modify another user's data
-            if user_exists.id != updated_data.id:
-                return {'error': 'Unauthorized action'}, 403
+                return {'error': 'Unauthorized User'}, 403
 
             # Prevent the user from modifying their email and password
-            if (user_exists.email != updated_data.email) and (user_exists.password != updated_data.password):
+            if (user_exists.email != user_data['email']) or user_exists.verify_password(user_data['password'], user_exists.password):
+                # Debug
+                print(user_exists.email, user_data['email'], user_exists.password)
                 return {'error': 'You cannot modify email or password'}, 400
 
             if user_exists:
@@ -95,7 +93,8 @@ class UserList(Resource):
                     'message': 'User updated successfully',
                     'id': str(updated_data.id),
                     'first_name': updated_data.first_name,
-                    'last_name': updated_data.last_name
+                    'last_name': updated_data.last_name,
+                    'email': updated_data.email
                     }, 200
             else:
                 return {'error': 'User does not exist'}, 400
@@ -115,4 +114,4 @@ class UserList(Resource):
 #  curl -X GET "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json"
 
 #  Update user details:
-#  curl -X PUT http://127.0.0.1:5000/api/v1/users/<user_id> -H "Content-Type: application/json" -d '{"first_name": "Jane", "last_name": "Do", "email": "jane.do@example.com"}'
+#  curl -X PUT http://127.0.0.1:5000/api/v1/users/<user_id> -H "Content-Type: application/json" -d '{"first_name": "Jane", "last_name": "Do", "email": "jane.do@example.com"}' -H "Authorization: Bearer <your_token>" -H "Content-Type: application/json"
