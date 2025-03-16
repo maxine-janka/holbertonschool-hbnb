@@ -1,5 +1,6 @@
 from flask_restx import Namespace, Resource, fields
 from app.services.__init_ import facade
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 api = Namespace('users', description='User operations')
@@ -69,18 +70,32 @@ class UserList(Resource):
         @api.expect(user_model)
         @api.response(200, 'User details updated successfully')
         @api.response(400, 'User does not exist')
+        @jwt_required()
         def put(self, user_id):
             """Update user details by ID"""
             user_data = api.payload
             user_exists = facade.get_user(user_id)
+
+            # user authenticate
+            current_user = get_jwt_identity()
+            if user_exists.id != current_user['id']:
+                return {'error': 'Unauthorized User'}, 401
+
+            # If the user is trying to modify another user's data
+            if user_exists.id != updated_data.id:
+                return {'error': 'Unauthorized action'}, 403
+
+            # Prevent the user from modifying their email and password
+            if (user_exists.email != updated_data.email) and (user_exists.password != updated_data.password):
+                return {'error': 'You cannot modify email or password'}, 400
+
             if user_exists:
                 updated_data = facade.update_user(user_id, user_data)
                 return {
                     'message': 'User updated successfully',
                     'id': str(updated_data.id),
                     'first_name': updated_data.first_name,
-                    'last_name': updated_data.last_name,
-                    'email': updated_data.email
+                    'last_name': updated_data.last_name
                     }, 200
             else:
                 return {'error': 'User does not exist'}, 400
@@ -88,7 +103,10 @@ class UserList(Resource):
 
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
 #  Register new user:
-#  curl -X POST http://127.0.0.1:5000/api/v1/users/ -H "Content-Type: application/json" -d '{"first_name": "John", "last_name": "Doe", "email": "john.doe@example.com"}'
+#  curl -X POST http://127.0.0.1:5000/api/v1/users/ -H "Content-Type: application/json" -d '{"first_name": "John", "last_name": "Doe", "email": "john.doe@example.com", "password": "123"}'
+
+# User login
+# curl -X POST "http://127.0.0.1:5000/api/v1/auth/login" -H "Content-Type: application/json" -d '{"email": "john.doe@example.com", "password": "123"}'
 
 #  Get details by ID:
 #  curl -X GET "http://127.0.0.1:5000/api/v1/users/<user_id>" -H "Content-Type: application/json"

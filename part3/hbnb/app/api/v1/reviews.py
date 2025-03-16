@@ -55,10 +55,6 @@ class ReviewList(Resource):
         review_dict = new_review.to_dict()
         # Add new review
         add_review = facade.create_review(review_dict)
-
-        # Check place is not owned by user
-        if new_place.id == new_review.place_id:
-            return {'error': 'Place belongs to User'}
         
         # Check user has not already reviewed this place
         if add_review.user == owner_id.id:
@@ -113,6 +109,7 @@ class ReviewResource(Resource):
     @api.response(200, 'Review updated successfully')
     @api.response(404, 'Review not found')
     @api.response(400, 'Invalid input data')
+    @jwt_required()
     def put(self, review_id):
         """Update a review's information"""
         review_exist = facade.get_review(review_id)
@@ -122,6 +119,11 @@ class ReviewResource(Resource):
             'text' : review_data['text'],
             'rating': review_data['rating']
         }
+
+        # user authenticate
+        current_user = get_jwt_identity()
+        if review_exist.user.id != current_user['id']:
+            return {'error': 'Unauthorized User'}, 403
 
         if review_exist:
             facade.update_review(review_id, new_review)
@@ -135,6 +137,12 @@ class ReviewResource(Resource):
         """Delete a review"""
         # Placeholder for the logic to delete a review
         review_exist = facade.get_review(review_id)
+
+        # user authenticate
+        current_user = get_jwt_identity()
+        if review_exist.user.id != current_user['id']:
+            return {'error': 'Unauthorized User'}, 403
+
         if review_exist:
             facade.delete_review(review_id)
 

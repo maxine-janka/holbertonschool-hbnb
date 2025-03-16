@@ -193,7 +193,7 @@ class PlaceResource(Resource):
         # user authenticate
         current_user = get_jwt_identity()
         place_exists = facade.get_place(place_id)
-        if place_exists.owner_id.id != current_user['id]']:
+        if place_exists.owner.id != current_user['id']:
             return {'error': 'Unauthorized action'}, 403
 
         if place_exists:
@@ -211,7 +211,8 @@ class PlaceResource(Resource):
 
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
 #  Register a New Place
-#  curl -X POST http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json" -d '{"title": "Cozy", "description": "nice", "price": 100.0, "latitude": 37.7749, "longitude": -122.4194, "owner": "<user_id>"}'
+#  curl -X POST http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json" -d '{"title": "Cozy", "description": "nice", "price": 100.0, "latitude": 37.7749, "longitude": -122.4194, "owner": "<user_id>"}' -H "Authorization: Bearer <your_token>" -H "Content-Type: application/json"
+
 #  Retrieve All Places
 #  curl -X GET http://127.0.0.1:5000/api/v1/places/ -H "Content-Type: application/json"
 
@@ -219,7 +220,7 @@ class PlaceResource(Resource):
 #  curl -X GET http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json"
 
 #  Update a Place’s Information
-#  curl -X PUT http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json" -d '{"title": "Luxury Condo", "description": "An upscale place to stay", "price": 200.0}'
+#  curl -X PUT http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json" -d '{"title": "Luxury Condo", "description": "An upscale place to stay", "price": 200.0}' -H "Authorization: Bearer <your_token>" -H "Content-Type: application/json"
 
 #  Retrieve All Reviews for a Specific Place:
 #  curl -X GET "http://127.0.0.1:5000/api/v1/places/<place_id>/reviews" -H "Content-Type: application/json"
