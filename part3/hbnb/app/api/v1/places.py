@@ -115,8 +115,7 @@ class PlaceList(Resource):
                 'longitude': place.longitude,
             })
         return list_all_places, 200
-
-@api.route('/<place_id>')
+        
 class PlaceResource(Resource):
     @api.response(200, 'Place details retrieved successfully')
     @api.response(404, 'Place not found')

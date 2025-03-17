@@ -1,9 +1,11 @@
 from flask_restx import Namespace, Resource, fields
 from app.services.__init_ import facade
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
+from flask import request
 
 
 api = Namespace('users', description='User operations')
+
 
 # Define the user model for input validation and documentation
 user_model = api.model('User', {
@@ -33,7 +35,8 @@ class UserList(Resource):
             'id': new_user.id,
             'first_name': new_user.first_name,
             'last_name': new_user.last_name,
-            'email': new_user.email
+            'email': new_user.email,
+            'is_admin': new_user.is_admin
             }, 201
 
     @api.response(200, 'User list retrieved successfully')
@@ -49,7 +52,7 @@ class UserList(Resource):
                 'email': user.email,
             })
         return list_all_users, 200
-
+        
     @api.route('/<user_id>')
     class UserResource(Resource):
         @api.response(200, 'User details retrieved successfully')
@@ -66,7 +69,7 @@ class UserList(Resource):
                 'email': user.email,
                 'password': user.password
                 }, 200
-
+        
         @api.expect(user_model)
         @api.response(200, 'User details updated successfully')
         @api.response(400, 'User does not exist')
@@ -108,7 +111,7 @@ class UserList(Resource):
 
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
 #  Register new user:
-#  curl -X POST http://127.0.0.1:5000/api/v1/users/ -H "Content-Type: application/json" -d '{"first_name": "John", "last_name": "Doe", "email": "john.doe@example.com", "password": "123"}'
+#  curl -X POST http://127.0.0.1:5000/api/v1/users/ -H "Content-Type: application/json" -d '{"first_name": "John", "last_name": "Doe", "email": "john.doe@example.com", "password": "123", "is_admin": "True"}'
 
 # User login
 # curl -X POST "http://127.0.0.1:5000/api/v1/auth/login" -H "Content-Type: application/json" -d '{"email": "john.doe@example.com", "password": "123"}'
