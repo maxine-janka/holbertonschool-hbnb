@@ -115,7 +115,8 @@ class PlaceList(Resource):
                 'longitude': place.longitude,
             })
         return list_all_places, 200
-        
+
+@api.route('/<place_id>')        
 class PlaceResource(Resource):
     @api.response(200, 'Place details retrieved successfully')
     @api.response(404, 'Place not found')
@@ -207,6 +208,24 @@ class PlaceResource(Resource):
         else:
             return {'error': 'Place not found'}, 404
 
+    @api.response(200, 'Place deleted successfully')
+    @api.response(404, 'Place not found')
+    @jwt_required()
+    def delete(self, place_id):
+        """Delete a place"""
+        current_user = get_jwt_identity()
+
+        place = facade.get_place(place_id)
+        
+        if place.owner.id != current_user['id']:
+            return {'error': 'Unauthorized action'}, 403
+
+        if place:
+            facade.delete_place(place_id)
+
+            return {"message": "place deleted successfully"}, 200
+        return {'Error': 'place not found'}, 404
+
 
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
 #  Register a New Place
@@ -223,3 +242,6 @@ class PlaceResource(Resource):
 
 #  Retrieve All Reviews for a Specific Place:
 #  curl -X GET "http://127.0.0.1:5000/api/v1/places/<place_id>/reviews" -H "Content-Type: application/json"
+
+#  Delete a Place:
+#  curl -X DELETE "http://127.0.0.1:5000/api/v1/places/<place_id>" -H "Content-Type: application/json" -H "Authorization: Bearer <your_token>"

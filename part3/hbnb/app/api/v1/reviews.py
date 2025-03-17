@@ -58,7 +58,7 @@ class ReviewList(Resource):
         add_review = facade.create_review(review_dict)
         
         # Check user has not already reviewed this place
-        if add_review.user == owner_id.id:
+        if add_review.user.id == owner_id.id:
             return {'error': 'You have already reviewed this place.'}, 400
 
         if add_review:
@@ -101,7 +101,7 @@ class ReviewResource(Resource):
                 'text': review.text,
                 'rating': review.rating,
                 'user_id': str(review.user.id),
-                'place_id': str(review.place.id)
+                'place_id': str(review.place_id.id)
             }, 200
         else:
             return {'Error': 'Review not found'}, 404

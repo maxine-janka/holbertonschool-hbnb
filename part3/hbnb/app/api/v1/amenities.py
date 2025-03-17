@@ -80,6 +80,18 @@ class AmenityResource(Resource):
                 }, 200
         else:
             return {'error': 'Amenity not found'}, 404
+        
+    @api.response(200, 'Amenity deleted successfully')
+    @api.response(404, 'Amenity not found')
+    def delete(self, amenity_id):
+        """Delete Amenity"""
+        amenity = facade.get_amenity(amenity_id)
+
+        if amenity:
+            facade.delete_amenity(amenity_id)
+
+            return {"message": "Amenity deleted successfully"}, 200
+        return {'Error': 'Amenity not found'}, 404
 
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
 #  Register a New Amenity
@@ -93,3 +105,6 @@ class AmenityResource(Resource):
 
 #  Update a Amenity’s Information
 #  curl -X PUT http://127.0.0.1:5000/api/v1/amenities/<amenity_id> -H "Content-Type: application/json" -d '{"name": "Air Conditioning"}'
+
+#  Delete a Amenity:
+#  curl -X DELETE "http://127.0.0.1:5000/api/v1/amenities/<amenities_id>" -H "Content-Type: application/json"

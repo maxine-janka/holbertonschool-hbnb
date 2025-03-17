@@ -150,7 +150,7 @@ class AdminPlaceModify(Resource):
         
     @jwt_required()
     def delete(self, place_id):
-        """Delete a review"""
+        """Delete a place"""
 
         current_user = get_jwt_identity()
 
