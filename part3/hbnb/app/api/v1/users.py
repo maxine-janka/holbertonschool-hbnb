@@ -82,10 +82,16 @@ class UserList(Resource):
                 return {'error': 'Unauthorized User'}, 403
 
             # Prevent the user from modifying their email and password
-            if (user_exists.email != user_data['email']) or user_exists.verify_password(user_data['password'], user_exists.password):
+            if user_exists.email != user_data['email']:
                 # Debug
-                print(user_exists.email, user_data['email'], user_exists.password)
-                return {'error': 'You cannot modify email or password'}, 400
+                print(user_exists.email, user_data['email'])
+                return {'error': 'You cannot modify email'}, 400
+
+            if not user_exists.verify_password(user_data['password']):
+                # Debug
+                print(user_exists.password, user_data['password'])
+                print(user_exists.verify_password(user_data['password']))
+                return {'error': 'You cannot modify password'}, 400
 
             if user_exists:
                 updated_data = facade.update_user(user_id, user_data)

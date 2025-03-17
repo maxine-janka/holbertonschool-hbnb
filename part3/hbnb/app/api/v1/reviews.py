@@ -2,6 +2,7 @@ from flask_restx import Namespace, Resource, fields
 from app.services.__init_ import facade
 from app.models.review import Review
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask import jsonify
 
 api = Namespace('reviews', description='Review operations')
 
@@ -112,8 +113,8 @@ class ReviewResource(Resource):
     @jwt_required()
     def put(self, review_id):
         """Update a review's information"""
-        review_exist = facade.get_review(review_id)
         review_data = api.payload
+        review_exist = facade.get_review(review_id)
 
         new_review = {
             'text' : review_data['text'],
@@ -122,8 +123,11 @@ class ReviewResource(Resource):
 
         # user authenticate
         current_user = get_jwt_identity()
+        print(current_user['id'])
+        print(review_exist.user.id)
+            
         if review_exist.user.id != current_user['id']:
-            return {'Unauthorized action'}, 403
+            return {'Error': 'Unauthorized action'}, 403
 
         if review_exist:
             facade.update_review(review_id, new_review)
@@ -141,8 +145,8 @@ class ReviewResource(Resource):
 
         # user authenticate
         current_user = get_jwt_identity()
-        if review_exist.user != current_user['id']:
-            return {'error': 'Unauthorized action'}, 403
+        if review_exist.user.id != current_user['id']:
+            return {'Error': 'Unauthorized action'}, 403
 
         if review_exist:
             facade.delete_review(review_id)

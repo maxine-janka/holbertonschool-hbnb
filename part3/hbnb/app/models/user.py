@@ -9,7 +9,7 @@ class User(BaseModel):
         self.last_name = last_name
         self.email = email
         self.is_admin = is_admin
-        self.hash_password(password)
+        self.password = password # self.hash_password(password)
         self.places = []
         self.reviews = []
 
@@ -61,7 +61,7 @@ class User(BaseModel):
     
     @password.setter
     def password(self, value):
-        self._password = value
+        self._password = bcrypt.generate_password_hash(value).decode('utf8')
 
     @property
     def is_admin(self):
@@ -82,9 +82,9 @@ class User(BaseModel):
         """User can add a review"""
         self.reviews.append(review)
 
-    def hash_password(self, password):
-        """Hashes the password before storing it."""
-        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+    # def hash_password(self, password):
+    #     """Hashes the password before storing it."""
+    #     self.password = bcrypt.generate_password_hash(password).decode('utf-8')
 
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password."""
