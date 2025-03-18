@@ -1,7 +1,6 @@
 import re
 # from app.models.basemodel import BaseModel
 from app import db, bcrypt
-import uuid
 from .basemodel import BaseModel
 from sqlalchemy.ext.hybrid import hybrid_property
 

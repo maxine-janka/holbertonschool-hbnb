@@ -1,11 +1,18 @@
-from app.models.basemodel import BaseModel
+# from app.models.basemodel import BaseModel
+from app import db, bcrypt
+from .basemodel import BaseModel
+from sqlalchemy.ext.hybrid import hybrid_property
 
 class Amenity(BaseModel):
     def __init__(self, name):
+        __tablename__ = 'amenities'
+        
+        _name = db.Column(db.String(50), nullable=False)
+
         super().__init__()
         self.name = name
 
-    @property
+    @hybrid_property
     def name(self):
         return self._name
 
