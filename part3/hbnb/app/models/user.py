@@ -1,8 +1,21 @@
 import re
-from app.models.basemodel import BaseModel
-from app import bcrypt
+# from app.models.basemodel import BaseModel
+from app import db, bcrypt
+import uuid
+from .basemodel import BaseModel
+from sqlalchemy.ext.hybrid import hybrid_property
 
 class User(BaseModel):
+    __tablename__ = 'users'
+
+    _first_name = db.Column(db.String(50), nullable=False)
+    _last_name = db.Column(db.String(50), nullable=False)
+    _email = db.Column(db.String(120), nullable=False, unique=True)
+    _password = db.Column(db.String(128), nullable=False)
+    _is_admin = db.Column(db.Boolean, default=False)
+    places = db.Column(db.String(128), nullable=False, unique=True)
+    reviews = db.Column(db.String(128), nullable=False, unique=False)
+
     def __init__(self, first_name, last_name, email, password, is_admin=False):
         super().__init__()
         self.first_name = first_name
@@ -13,7 +26,7 @@ class User(BaseModel):
         self.places = []
         self.reviews = []
 
-    @property
+    @hybrid_property
     def first_name(self):
         return self._first_name
 
@@ -24,7 +37,7 @@ class User(BaseModel):
         else:
             raise ValueError("First name must be a maximum of 50 characters")
 
-    @property
+    @hybrid_property
     def last_name(self):
         return self._last_name
 
@@ -35,7 +48,7 @@ class User(BaseModel):
         else:
             raise ValueError("Last name must be a maximum of 50 characters")
 
-    @property
+    @hybrid_property
     def email(self):
         return self._email
 
@@ -55,7 +68,7 @@ class User(BaseModel):
         self._email = value
 
 
-    @property
+    @hybrid_property
     def password(self):
         return self._password
     
@@ -63,7 +76,7 @@ class User(BaseModel):
     def password(self, value):
         self._password = bcrypt.generate_password_hash(value).decode('utf8')
 
-    @property
+    @hybrid_property
     def is_admin(self):
         return self._is_admin
 
