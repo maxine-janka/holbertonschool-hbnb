@@ -10,14 +10,14 @@ class Review(BaseModel):
     _text = db.Column(db.String(100), nullable=False)
     _rating = db.Column(db.String(2), nullable=False)
     _place_id = db.Column(db.String(100), nullable=False)
-    _user = db.Column(db.String(100), nullable=False)
+    _user_id = db.Column(db.String(100), nullable=False)
 
-    def __init__(self, text, rating, place_id, user):
+    def __init__(self, text, rating, place_id, user_id):
         super().__init__()
         self.text = text
         self.rating = rating
         self.place_id = place_id
-        self.user = user
+        self.user_id = user_id
 
     @hybrid_property
     def text(self):
@@ -47,22 +47,28 @@ class Review(BaseModel):
 
     @place_id.setter
     def place_id(self, value):
-        if isinstance(value, Place):
+        from app.services.__init_ import facade
+
+        place_exists = facade.get_place(value)
+        if place_exists:
             self._place_id = value
         else:
-            raise ValueError("Review: Place does not exist")
-
+            raise ValueError("Place does not exist!")
+        
     @hybrid_property
-    def user(self):
-        return self._user
+    def user_id(self):
+        return self._user_id
 
-    @user.setter
-    def user(self, value):
-        if isinstance(value, User):
-            self._user = value
+    @user_id.setter
+    def user_id(self, value):
+        from app.services.__init_ import facade
+
+        user_exists = facade.get_user(value)
+        if user_exists:
+            self._user_id = value
         else:
-            raise ValueError("Review: Owner must be validated")
-
+            raise ValueError("Owner does not exist!")
+   
     def to_dict(self):
         """Converty to dictionary method"""
         return {
