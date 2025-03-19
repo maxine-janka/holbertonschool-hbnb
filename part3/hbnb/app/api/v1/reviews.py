@@ -41,7 +41,7 @@ class ReviewList(Resource):
             return {'error': 'Not Place'}, 404
 
         # Owner cannot review own place
-        if owner_id.id == new_place.owner.id:
+        if owner_id == new_place.owner:
             return {'error': 'You cannot review your own place'}, 400
 
         # Pass directly to Review Class
@@ -58,7 +58,7 @@ class ReviewList(Resource):
         add_review = facade.create_review(review_dict)
         
         # Check user has not already reviewed this place
-        if add_review.user.id == owner_id.id:
+        if add_review.user == owner_id:
             return {'error': 'You have already reviewed this place.'}, 400
 
         if add_review:

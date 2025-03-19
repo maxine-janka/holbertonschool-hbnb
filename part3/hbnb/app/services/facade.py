@@ -6,12 +6,13 @@ from app.models.review import Review
 from app.services.user_repository import UserRepository
 from app.services.amenity_repository import AmenityRepository
 from app.services.place_repository import PlaceRepository
+from app.services.review_repository import ReviewRepository
 
 class HBnBFacade:
     def __init__(self):
         self.user_repo = UserRepository()
         self.place_repo = PlaceRepository()
-        self.review_repo = InMemoryRepository()
+        self.review_repo = ReviewRepository()
         self.amenity_repo = AmenityRepository()
 
 #---------- User Methods ------------# 

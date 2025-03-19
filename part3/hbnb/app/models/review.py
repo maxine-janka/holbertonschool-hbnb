@@ -1,8 +1,17 @@
+from app import db
 from app.models.basemodel import BaseModel
 from app.models.place import Place
 from app.models.user import User
+from sqlalchemy.ext.hybrid import hybrid_property
 
 class Review(BaseModel):
+    __tablename__ = 'reviews'
+
+    _text = db.Column(db.String(100), nullable=False)
+    _rating = db.Column(db.String(2), nullable=False)
+    _place_id = db.Column(db.String(100), nullable=False)
+    _user = db.Column(db.String(100), nullable=False)
+
     def __init__(self, text, rating, place_id, user):
         super().__init__()
         self.text = text
@@ -10,7 +19,7 @@ class Review(BaseModel):
         self.place_id = place_id
         self.user = user
 
-    @property
+    @hybrid_property
     def text(self):
         return self._text
 
@@ -21,7 +30,7 @@ class Review(BaseModel):
         else:
             raise ValueError("Text required")
 
-    @property
+    @hybrid_property
     def rating(self):
         return self._rating
 
@@ -32,7 +41,7 @@ class Review(BaseModel):
         else:
             raise ValueError("Ratings must be between 1 and 5") 
 
-    @property
+    @hybrid_property
     def place_id(self):
         return self._place_id
 
@@ -43,7 +52,7 @@ class Review(BaseModel):
         else:
             raise ValueError("Review: Place does not exist")
 
-    @property
+    @hybrid_property
     def user(self):
         return self._user
 

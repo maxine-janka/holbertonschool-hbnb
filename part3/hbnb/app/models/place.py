@@ -83,10 +83,9 @@ class Place(BaseModel):
 # User instance of who owns the place. This should be validated to ensure the owner exists.
     @owner.setter
     def owner(self, value):
-        if isinstance(value, User):
-            self._owner = value
-        else:
-            raise ValueError("Owner must be validated")
+        self._owner = value
+        # else:
+        #     raise ValueError("Owner must be validated")
 
     def to_dict(self):
         """Converty to dictionary method"""
