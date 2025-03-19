@@ -2,6 +2,8 @@ from app.models.basemodel import BaseModel
 from app.models.user import User
 from app import db
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 
 class Place(BaseModel):
     __tablename__ = 'places'
@@ -11,7 +13,8 @@ class Place(BaseModel):
     _price = db.Column(db.String(120), nullable=False, unique=True)
     _latitude = db.Column(db.String(128), nullable=False, unique=True)
     _longitude = db.Column(db.String(128), nullable=False, unique=True)
-    _owner = db.Column(db.String(100), nullable=False)
+    _owner = db.Column(db.String(40), ForeignKey('users.id'), nullable=False)
+    # owner_r = relationship("User"), back_populates=
 
     def __init__(self, title, description, price, latitude, longitude, owner):
         super().__init__()

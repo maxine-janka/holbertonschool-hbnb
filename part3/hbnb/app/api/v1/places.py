@@ -124,7 +124,7 @@ class PlaceResource(Resource):
         """Get place details by ID"""
         # Placeholder for the logic to retrieve a place by ID, including associated owner and amenities
         place = facade.get_place(place_id)
-        user = facade.get_user(place.owner.id)
+        user = facade.get_user(place.owner)
         all_amenity = facade.get_all_amenities()
 
         if not place:
@@ -164,10 +164,11 @@ class PlaceResource(Resource):
 
             if not place:
                 return {'error': 'Place not found'}, 404
-
+            
             place_reviews = []
             for review in reviews:
-                if review.place_id == place:
+                
+                if review.place_id == place.id:
                     place_reviews.append({
                         'id': str(review.id),
                         'text': review.text,
@@ -184,6 +185,8 @@ class PlaceResource(Resource):
         """Update a place's information"""
         # Placeholder for the logic to update a place by ID
         place_data = api.payload
+        place_exists = facade.get_place(place_id)
+
 
         # Check if key names are correct
         key_list = ['title', 'description', 'price']
@@ -192,8 +195,8 @@ class PlaceResource(Resource):
 
         # user authenticate
         current_user = get_jwt_identity()
-        place_exists = facade.get_place(place_id)
-        if place_exists.owner.id != current_user['id']:
+
+        if place_exists.owner != current_user['id']:
             return {'error': 'Unauthorized action'}, 403
 
         if place_exists:
@@ -217,7 +220,7 @@ class PlaceResource(Resource):
 
         place = facade.get_place(place_id)
         
-        if place.owner.id != current_user['id']:
+        if place.owner != current_user['id']:
             return {'error': 'Unauthorized action'}, 403
 
         if place:
