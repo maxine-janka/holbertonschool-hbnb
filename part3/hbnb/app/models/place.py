@@ -1,12 +1,13 @@
 from app.models.basemodel import BaseModel
 from app.models.user import User
 from app import db
+from sqlalchemy.ext.hybrid import hybrid_property
 
 class Place(BaseModel):
     __tablename__ = 'places'
 
     _title = db.Column(db.String(50), nullable=False)
-    _description = db.Column(db.String(50), nullable=False)
+    _description = db.Column(db.String(150), nullable=True)
     _price = db.Column(db.String(120), nullable=False, unique=True)
     _latitude = db.Column(db.String(128), nullable=False, unique=True)
     _longitude = db.Column(db.String(128), nullable=False, unique=True)
@@ -23,7 +24,7 @@ class Place(BaseModel):
         # self.reviews = []  # List to store related reviews
         # self.amenities = []  # List to store related amenities
 
-    @property
+    @hybrid_property
     def title(self):
         return self._title
 
@@ -34,7 +35,15 @@ class Place(BaseModel):
         else:
             raise ValueError("title must be a maximum of 100 characters")
 
-    @property
+    @hybrid_property
+    def description(self):
+        return self._description
+
+    @description.setter
+    def description(self, value):
+        self._description = value
+
+    @hybrid_property
     def price(self):
         return self._price
 
@@ -45,7 +54,7 @@ class Place(BaseModel):
         else:
             raise ValueError("Must be a positive value and float")
 
-    @property
+    @hybrid_property
     def latitude(self):
         return self._latitude
 
@@ -56,7 +65,7 @@ class Place(BaseModel):
         else:
             raise ValueError("Must be within the range of -90.0 to 90.0 and float")
 
-    @property
+    @hybrid_property
     def longitude(self):
         return self._longitude
 
@@ -67,7 +76,7 @@ class Place(BaseModel):
         else:
             raise ValueError("Must be within the range of -90.0 to 90.0 and float")
 
-    @property
+    @hybrid_property
     def owner(self):
         return self._owner
 

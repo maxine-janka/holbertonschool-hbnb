@@ -75,7 +75,7 @@ class PlaceList(Resource):
                 price=place_data['price'],
                 latitude=place_data['latitude'],
                 longitude=place_data['longitude'],
-                owner=owner_id
+                owner=owner_id.id
             )
         # Convert to dictionary
         place_dict = new_place.to_dict()
