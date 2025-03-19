@@ -12,7 +12,7 @@ class User(BaseModel):
     _email = db.Column(db.String(120), nullable=False, unique=True)
     _password = db.Column(db.String(128), nullable=False)
     _is_admin = db.Column(db.Boolean, default=False)
-    # places = relationship db.Column(db.String(128), nullable=True, unique=True)
+    # places = db.Column(db.String(128), nullable=True, unique=True)
     # reviews = db.Column(db.String(128), nullable=True, unique=False)
 
     def __init__(self, first_name, last_name, email, password, is_admin=False):
@@ -22,8 +22,8 @@ class User(BaseModel):
         self.email = email
         self.is_admin = is_admin
         self.password = password # self.hash_password(password)
-        # self.places = ''
-        # self.reviews = ""
+        # self.places = []
+        # self.reviews = []
 
     @hybrid_property
     def first_name(self):

@@ -1,7 +1,17 @@
 from app.models.basemodel import BaseModel
 from app.models.user import User
+from app import db
 
 class Place(BaseModel):
+    __tablename__ = 'places'
+
+    _title = db.Column(db.String(50), nullable=False)
+    _description = db.Column(db.String(50), nullable=False)
+    _price = db.Column(db.String(120), nullable=False, unique=True)
+    _latitude = db.Column(db.String(128), nullable=False, unique=True)
+    _longitude = db.Column(db.String(128), nullable=False, unique=True)
+    _owner = db.Column(db.String(100), nullable=False)
+
     def __init__(self, title, description, price, latitude, longitude, owner):
         super().__init__()
         self.title = title
@@ -10,8 +20,8 @@ class Place(BaseModel):
         self.latitude = latitude
         self.longitude = longitude
         self.owner = owner
-        self.reviews = []  # List to store related reviews
-        self.amenities = []  # List to store related amenities
+        # self.reviews = []  # List to store related reviews
+        # self.amenities = []  # List to store related amenities
 
     @property
     def title(self):

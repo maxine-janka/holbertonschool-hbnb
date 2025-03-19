@@ -4,11 +4,11 @@ from .basemodel import BaseModel
 from sqlalchemy.ext.hybrid import hybrid_property
 
 class Amenity(BaseModel):
-    def __init__(self, name):
-        __tablename__ = 'amenities'
+    __tablename__ = 'amenities'
         
-        _name = db.Column(db.String(50), nullable=False)
-
+    _name = db.Column(db.String(50), nullable=False)
+   
+    def __init__(self, name):
         super().__init__()
         self.name = name
 
