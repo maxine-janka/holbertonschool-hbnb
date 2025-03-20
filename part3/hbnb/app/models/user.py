@@ -3,6 +3,7 @@ import re
 from app import db, bcrypt
 from .basemodel import BaseModel
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import relationship
 
 class User(BaseModel):
     __tablename__ = 'users'
@@ -12,6 +13,9 @@ class User(BaseModel):
     _email = db.Column(db.String(120), nullable=False, unique=True)
     _password = db.Column(db.String(128), nullable=False)
     _is_admin = db.Column(db.Boolean, default=False)
+    places_r = relationship("Place", back_populates="owner_r")
+    reviews_r = relationship("Review", back_populates="user_r")
+    
     # places = db.Column(db.String(128), nullable=True, unique=True)
     # reviews = db.Column(db.String(128), nullable=True, unique=False)
 

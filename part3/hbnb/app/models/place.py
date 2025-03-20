@@ -14,7 +14,8 @@ class Place(BaseModel):
     _latitude = db.Column(db.String(128), nullable=False, unique=True)
     _longitude = db.Column(db.String(128), nullable=False, unique=True)
     _owner = db.Column(db.String(40), ForeignKey('users.id'), nullable=False)
-    # owner_r = relationship("User"), back_populates=
+    owner_r = relationship("User", back_populates="places_r")
+    reviews_r = relationship("Review", back_populates="places_r")
 
     def __init__(self, title, description, price, latitude, longitude, owner):
         super().__init__()

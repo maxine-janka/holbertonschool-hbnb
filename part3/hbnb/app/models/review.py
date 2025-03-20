@@ -3,14 +3,18 @@ from app.models.basemodel import BaseModel
 from app.models.place import Place
 from app.models.user import User
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 
 class Review(BaseModel):
     __tablename__ = 'reviews'
 
     _text = db.Column(db.String(100), nullable=False)
     _rating = db.Column(db.String(2), nullable=False)
-    _place_id = db.Column(db.String(100), nullable=False)
-    _user_id = db.Column(db.String(100), nullable=False)
+    _place_id = db.Column(db.String(100), ForeignKey('places.id'), nullable=False)
+    _user_id = db.Column(db.String(100), ForeignKey('users.id'), nullable=False)
+    places_r = relationship("Place", back_populates="reviews_r")
+    user_r = relationship("User", back_populates="reviews_r")
 
     def __init__(self, text, rating, place_id, user_id):
         super().__init__()
