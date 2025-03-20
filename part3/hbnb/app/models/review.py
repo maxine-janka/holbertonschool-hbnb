@@ -9,10 +9,10 @@ from sqlalchemy.orm import relationship
 class Review(BaseModel):
     __tablename__ = 'reviews'
 
-    _text = db.Column(db.String(100), nullable=False)
-    _rating = db.Column(db.String(2), nullable=False)
-    _place_id = db.Column(db.String(100), ForeignKey('places.id'), nullable=False)
-    _user_id = db.Column(db.String(100), ForeignKey('users.id'), nullable=False)
+    _text = db.Column("text", db.String(100), nullable=False)
+    _rating = db.Column("rating", db.Integer, nullable=False)
+    _place_id = db.Column("place_id", db.String(36), ForeignKey('places.id'), nullable=False)
+    _user_id = db.Column("user_id", db.String(36), ForeignKey('users.id'), nullable=False)
     places_r = relationship("Place", back_populates="reviews_r")
     user_r = relationship("User", back_populates="reviews_r")
 

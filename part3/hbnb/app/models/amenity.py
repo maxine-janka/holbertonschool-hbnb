@@ -2,11 +2,14 @@
 from app import db, bcrypt
 from .basemodel import BaseModel
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import relationship
+from app.models.place import place_amenity
 
 class Amenity(BaseModel):
     __tablename__ = 'amenities'
         
-    _name = db.Column(db.String(50), nullable=False)
+    _name = db.Column("name", db.String(50), nullable=False)
+    places_r = relationship("Place", secondary=place_amenity, back_populates="amenities_r")
    
     def __init__(self, name):
         super().__init__()

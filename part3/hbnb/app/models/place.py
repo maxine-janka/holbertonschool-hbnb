@@ -5,17 +5,24 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 
+place_amenity = db.Table(
+    "place_amenity",
+    db.Column("place_id", db.String(36), ForeignKey("places.id"), primary_key=True),
+    db.Column("aminity_id", db.String(36), ForeignKey("amenities.id"), primary_key=True)
+)
+
 class Place(BaseModel):
     __tablename__ = 'places'
 
-    _title = db.Column(db.String(50), nullable=False)
-    _description = db.Column(db.String(150), nullable=True)
-    _price = db.Column(db.String(120), nullable=False, unique=True)
-    _latitude = db.Column(db.String(128), nullable=False, unique=True)
-    _longitude = db.Column(db.String(128), nullable=False, unique=True)
-    _owner = db.Column(db.String(40), ForeignKey('users.id'), nullable=False)
+    _title = db.Column("title", db.String(50), nullable=False)
+    _description = db.Column("description", db.String(150), nullable=True)
+    _price = db.Column(db.Float(120), nullable=False)
+    _latitude = db.Column("latitude", db.Float, nullable=False, unique=True)
+    _longitude = db.Column("longitude", db.Float, nullable=False, unique=True)
+    _owner = db.Column("owner_id", db.String(36), ForeignKey('users.id'), nullable=False)
     owner_r = relationship("User", back_populates="places_r")
     reviews_r = relationship("Review", back_populates="places_r")
+    amenities_r = relationship("Amenity", secondary=place_amenity, lazy='subquery', back_populates="places_r")
 
     def __init__(self, title, description, price, latitude, longitude, owner):
         super().__init__()
