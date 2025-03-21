@@ -15,7 +15,7 @@ class Place(BaseModel):
     __tablename__ = 'places'
 
     _title = db.Column("title", db.String(50), nullable=False)
-    _description = db.Column("description", db.String(150), nullable=True)
+    _description = db.Column("description", db.String(150), nullable=False)
     _price = db.Column(db.Float(120), nullable=False)
     _latitude = db.Column("latitude", db.Float, nullable=False, unique=True)
     _longitude = db.Column("longitude", db.Float, nullable=False, unique=True)
