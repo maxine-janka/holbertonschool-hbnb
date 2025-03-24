@@ -13,8 +13,8 @@ class User(BaseModel):
     _email = db.Column("email", db.String(120), nullable=False, unique=True)
     _password = db.Column("password", db.String(128), nullable=False)
     _is_admin = db.Column("is_admin", db.Boolean, default=False)
-    places_r = relationship("Place", back_populates="owner_r")
-    reviews_r = relationship("Review", back_populates="user_r")
+    places_r = relationship("Place", back_populates="owner_r", cascade="all, delete")
+    reviews_r = relationship("Review", back_populates="user_r", cascade="all, delete")
     
     # places = db.Column(db.String(128), nullable=True, unique=True)
     # reviews = db.Column(db.String(128), nullable=True, unique=False)
