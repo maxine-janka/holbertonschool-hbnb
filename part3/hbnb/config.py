@@ -6,8 +6,8 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    # SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://hbnb_evo_2:default_pwd@localhost:5000/hbnb_evo_2_db'
-    SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://nigel:123@localhost:5000/hbnb_evo_2_db'
+    SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://hbnb_evo_2:default_pwd@localhost:5000/hbnb_evo_2_db'
+    # SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://nigel:123@localhost:5000/hbnb_evo_2_db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 config = {

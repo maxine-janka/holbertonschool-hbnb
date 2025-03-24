@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `reviews` (
     `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `text` TEXT NOT NULL,
     `rating` INT NOT NULL,
-    `user_id` VARCHAR(60) NOT NULL,
+    `user_id` VARCHAR(60),
     `place_id` VARCHAR(60) NOT NULL,
     PRIMARY KEY (`id`),
     CONSTRAINT `ibfk_reviews_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),

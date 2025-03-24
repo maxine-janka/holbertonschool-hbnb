@@ -107,6 +107,25 @@ class UserList(Resource):
                     }, 200
             else:
                 return {'error': 'User does not exist'}, 400
+        
+        @api.response(200, 'User deleted successfully')
+        @api.response(404, 'User not found')
+        @api.response(403, 'Unauthorized action')
+        @jwt_required()
+        def delete(self, user_id):
+            """Delete a user"""
+            user_exists = facade.get_user(user_id)
+            current_user = get_jwt_identity()
+
+            if not user_exists:
+                return {'Error': 'User not found'}, 404
+        
+            # print(current_user['id'])
+            if user_exists.id != current_user['id']:
+                return {'Error': 'Unauthorized action'}, 403
+            else:
+                facade.delete_user(user_id)
+                return {"message": "User deleted successfully"}, 200
 
 
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###

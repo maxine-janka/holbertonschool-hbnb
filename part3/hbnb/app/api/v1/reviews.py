@@ -39,11 +39,7 @@ class ReviewList(Resource):
 
         if place.owner == user.id:
             return { 'error': "Invalid input data - review writer is place owner" }, 400
-        
-        # Check user has not already reviewed this place
-        if user.id == review_data.get("user_id"):
-            return {'error': 'You have already reviewed this place.'}, 400
-
+    
         new_review = facade.create_review(review_data)
         if not new_review:
             return {'error': 'Invalid input data'}, 400
