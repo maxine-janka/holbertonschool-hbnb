@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS users;
 -- User Table
 CREATE TABLE IF NOT EXISTS `users` (
     `id` VARCHAR(60) NOT NULL,
-    `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `first_name` VARCHAR(255) NOT NULL,
     `last_name` VARCHAR(255) NOT NULL,
@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS places;
 -- Place Table
 CREATE TABLE IF NOT EXISTS `places` (
     `id` VARCHAR(60),
-    `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `title` VARCHAR(255) NOT NULL,
     `description` TEXT NOT NULL,
@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS reviews;
 -- Review Table
 CREATE TABLE IF NOT EXISTS `reviews` (
     `id` VARCHAR(60) NOT NULL,
-    `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `text` TEXT NOT NULL,
     `rating` INT NOT NULL,
@@ -56,14 +56,14 @@ DROP TABLE IF EXISTS `amenities`;
 -- Amenity Table
 CREATE TABLE IF NOT EXISTS `amenities` (
     `id` VARCHAR(60),
-    `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `name` VARCHAR(255) NOT NULL UNIQUE,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
 
-DROP TABLE IF EXISTS place_amenity;
+DROP TABLE IF EXISTS `place_amenity`;
 -- Place Amenity Table
 CREATE TABLE IF NOT EXISTS `place_amenity` (
     `place_id` VARCHAR(60) NOT NULL,
