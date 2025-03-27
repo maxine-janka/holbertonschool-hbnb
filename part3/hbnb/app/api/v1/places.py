@@ -2,6 +2,7 @@ from flask_restx import Namespace, Resource, fields
 from app.services.__init_ import facade
 from app.models.place import Place
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from app import db
 
 
 api = Namespace('places', description='Place operations')
@@ -125,18 +126,20 @@ class PlaceResource(Resource):
         # Placeholder for the logic to retrieve a place by ID, including associated owner and amenities
         place = facade.get_place(place_id)
         user = facade.get_user(place.owner)
-        all_amenity = facade.get_all_amenities()
 
         if not place:
             return {'error': 'Place not found'}, 404
 
-        list_all_amenity = []
-        for amenity in all_amenity:
-            list_all_amenity.append({
-                'id': str(amenity.id),
-                'name': amenity.name
-            })
-        amenity_data = list_all_amenity
+        # get amenities related to the place
+        amenities = place.amenities_r
+
+        if not amenities:
+            return {'error': 'Amenities not found'}, 200
+        
+        for amenity in amenities:
+            print(f"Amenity ID: {amenity.id}, Amenity Name: {amenity.name}")
+
+        amenities_list = [{'id': str(amenity.id), 'name': amenity.name} for amenity in amenities]
 
         return {
             'id': place.id,
@@ -150,7 +153,7 @@ class PlaceResource(Resource):
                 'last_name': user.last_name,
                 'email': user.email
             },
-            "amenities": amenity_data
+            'amenities': amenities_list
         }, 200
 
     @api.route('/<place_id>/reviews')
@@ -189,9 +192,9 @@ class PlaceResource(Resource):
 
 
         # Check if key names are correct
-        key_list = ['title', 'description', 'price']
-        if not all(name in key_list for name in place_data):
-            return {'error': 'Invalid input data'}, 400
+        # key_list = ['title', 'description', 'price']
+        # if not all(name in key_list for name in place_data):
+        #     return {'error': 'Invalid input data'}, 400
 
         # user authenticate
         current_user = get_jwt_identity()
@@ -229,6 +232,56 @@ class PlaceResource(Resource):
             return {"message": "place deleted successfully"}, 200
         return {'Error': 'place not found'}, 404
 
+
+    # Many to Many Relationship
+    @api.route('/<place_id>/amenities')
+    class PlaceAmenityResource(Resource):
+        @api.response(200, 'List of amenities for the place retrieved successfully')
+        @api.response(404, 'Place not found')
+        def get(self, place_id):
+            """Get all amenities for a specific place"""
+            place = facade.get_place(place_id)
+
+            if not place:
+                return {'error': 'Place not found'}, 404
+            
+             # get amenities related to the place
+            amenities = place.amenities_r
+
+            if not amenities:
+                return {'error': 'Amenities not found'}, 200
+            
+            for amenity in amenities:
+                print(f"Amenity ID: {amenity.id}, Amenity Name: {amenity.name}")
+
+            amenities_list = [{'id': str(amenity.id), 'name': amenity.name} for amenity in amenities]
+
+            return {'amenities': amenities_list}, 200
+        
+        @api.expect(amenity_model)
+        @api.response(201, 'Amenity successfully added to the place')
+        @api.response(404, 'Place not found')
+        def post(self, place_id):
+            """Add an amenity to a place"""
+            place = facade.get_place(place_id)
+
+            if not place:
+                return {'error': 'Place not found'}, 404
+            
+            amenity_data = api.payload
+            amenity = facade.get_amenity_by_name(amenity_data['name'])
+
+            if not amenity:
+                return {'error': 'Amenity not found'}, 404
+            
+            # Add the amenity to the place
+            place.amenities_r.append(amenity)
+
+            # Commit the changes to the database
+            db.session.commit()
+            print(place.amenities_r)
+
+            return {"message": f"Amenity {amenity.name} added to {place.title} successfully"}, 201
 
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
 #  Register a New Place

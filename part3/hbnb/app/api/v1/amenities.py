@@ -1,6 +1,7 @@
 from flask_restx import Namespace, Resource, fields
 from app.services.__init_ import facade
-from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
+from app.models.place import Place
+from app.models.amenity import Amenity
 
 api = Namespace('amenities', description='Amenity operations')
 
@@ -67,9 +68,9 @@ class AmenityResource(Resource):
         amenity_exists = facade.get_amenity(amenity_id)
 
         # Check if key names are correct
-        key_list = ['name']
-        if not all(name in key_list for name in amenity_data):
-            return {'error': 'Invalid input data'}, 400
+        # key_list = ['name']
+        # if not all(name in key_list for name in amenity_data):
+        #     return {'error': 'Invalid input data'}, 400
 
         if amenity_exists:
             updated_amenity = facade.update_amenity(amenity_id, amenity_data)
@@ -92,6 +93,7 @@ class AmenityResource(Resource):
 
             return {"message": "Amenity deleted successfully"}, 200
         return {'Error': 'Amenity not found'}, 404
+
 
         ### CURL COMMMANDS TO TEST HHTP REQUESTS ###
 #  Register a New Amenity

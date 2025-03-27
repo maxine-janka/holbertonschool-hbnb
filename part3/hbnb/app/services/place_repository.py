@@ -11,3 +11,4 @@ class PlaceRepository(SQLAlchemyRepository):
 
     def get_place_by_longitude(self, longitude):
         return self.model.query.filter_by(longitude=longitude).first()
+
