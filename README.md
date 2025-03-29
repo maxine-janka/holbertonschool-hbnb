@@ -67,7 +67,7 @@ In this phase the documented architecture was transformed by developing the appl
 
 __[Part 3](https://github.com/maxine-janka/holbertonschool-hbnb/tree/master/part3/hbnb): Enhanced Backend with Authentication and Database Integration__
 <br>
-In part 3 the backend was extended through user autheniticatin, authorization and database integration. JWT-based user autheniication was implemeted with Flask-JWT-Extened, in-memory storage was replaced with MySQL using SQLAlchemy as the ORM, all CRIUD oerations were refactored and relationships between entities were correctly mapped.
+In part 3 the backend was extended through user autheniticatin, authorization and database integration. JWT-based user autheniication was implemeted with Flask-JWT-Extened, in-memory storage was replaced with MySQL using SQLAlchemy as the ORM, all CRUD oerations were refactored and relationships between entities were correctly mapped.
 
 __[Part 4](): Simple Web Client__
 <br>
