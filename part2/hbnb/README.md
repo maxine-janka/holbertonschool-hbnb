@@ -9,7 +9,7 @@ This phase focuses on building the Presentation and Buisness Logic layers using 
 * Develop the core classes for the buisness logic, including: User, Place, Review and Amenity entities
 * Implement the facade pattern to allow communication between the Presentation and Buisness Logic layers
 * Add API endpoints to handle CRUD operations for Users, Places, Reviews and Amenities (Delete operations for User, Place and Amenity are implemented in part 3)
-* Implement data serialization to return attributes that are related to the object. For example, the API will return the owner's details, such as the owner_id when fetching a Place.
+* Implement data serialization to return attributes that are related to the object. For example, the API will return the owner's details, such as the owner's first_name, last_name and email when fetching a Place details.
 * Tests to validate the buisness logic behaviour
 * Ensure API repsonses are consistent with expected behaviour
 * Ensure API endpoints work correcrly and handle edge cases appropriately
