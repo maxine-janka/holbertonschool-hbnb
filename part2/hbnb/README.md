@@ -6,7 +6,7 @@ This phase focuses on building the Presentation and Buisness Logic layers using 
 ### PART 2 OBJECTIVES &ensp; ✅
 <hr>
 
-* Develop the core classes for the buisness logic, including: User, Place, Review and Amenity entities.
+* Develop the core classes for the buisness logic, including: User, Place, Review and Amenity entities
 * Implement the facade pattern to allow communication between the Presentation and Buisness Logic layers
 * Add API endpoints to handle CRUD operations for Users, Places, Reviews and Amenities (Delete operations for User, Place and Amenity are implemented in part 3)
 * Implement data serialization to return attributes that are related to the object. For example, the API will return the owner's details, such as the owner_id when fetching a Place.
@@ -137,6 +137,37 @@ Possible status codes:
   "owner_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
 }
 ```
+### Test retreiving a Place details with listed amenities
+Possible status codes:
+* 201: Place details retrieved successfully
+* 400: Place not found
+```
+curl -X GET http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: application/json"
+```
+
+### Expected Response
+🐛 Every amenity that is registered is added as an amenity to the <place_id> details endpoint. This has been debugged in part 3.
+```
+{
+  "id": "1fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "title": "Cozy Apartment",
+  "description": "A nice place to stay",
+  "latitude": 37.7749,
+  "longitude": -122.4194,
+  "owner": {
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@example.com"
+  },
+  "amenities": [
+    {
+      "id": "1fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "name": "Wi-Fi"
+    },
+  ]
+}
+```
 
 ### Test adding a review by a second user:
 Possible status codes:
@@ -162,6 +193,11 @@ Possible status codes:
 }
 ```
 
-### CONTRIBUTORS 🧑‍💻👩‍💻
+### CONTRIBUTORS 🧑‍💻👩‍💻🧑‍💻
+Nigel Feng
+<br>
+Maxine Janka
+<br>
+Dieu Doan
 
 
