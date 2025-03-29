@@ -41,7 +41,7 @@ __3. Persistence Layer:__
 
 ### TECHNOLOGIES USED  &ensp;  💡
 ***
-The main technologies used to build part 2 of the application inlcude:
+The main technologies used to build the application inlcude:
 <br>
 <br>
 Python3
