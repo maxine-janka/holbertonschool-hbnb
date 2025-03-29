@@ -8,7 +8,7 @@ The application allows users to perform the following operations:
 
 __User Management__
 <br>
-   Users can register, update their profule and be identified as a regular user or administrator.
+   Users can register, update their profile and be identified as a regular user or administrator.
     
 __Place Management__
  <br>
