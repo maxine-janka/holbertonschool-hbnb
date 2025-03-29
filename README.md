@@ -1,7 +1,7 @@
 
 ### PROJECT DESCRIPTION  &ensp; ✏️
 ***
-This repository contains an application that replicates a simplified version of an Airbnb-like web application. This project was built for educational purposes for Holberton School Australia.
+This repository contains an application that replicates a simplified version of an Airbnb-like web application - HolbertonBedandBreakfast (HBnB). This project was built for educational purposes for Holberton School Australia.
 The aim of this project was to gain an understanding of the stages of full-stack web development - from design and architecture through to implementation.
 
 The application allows users to perform the following operations:
