@@ -59,7 +59,7 @@ A more detailed description of each part can be found in respective directories.
 
 __Part 1: Technical documentation__
 <br>
-To steer the implementation phases, the overall architecture, business logic, and system interactions were documented using three different diagram styles.
+To help guide the implementation phases, the overall architecture, business logic, and system interactions were planned and organised using three different diagram styles.
   
 __[Part 2](https://github.com/maxine-janka/holbertonschool-hbnb/tree/master/part2/hbnb): Implementation of Buisness Logic and API Endpoints__
 <br>
