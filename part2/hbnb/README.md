@@ -146,7 +146,7 @@ curl -X GET http://127.0.0.1:5000/api/v1/places/<place_id> -H "Content-Type: app
 ```
 
 ### Expected Response
-🐛 Every amenity that is registered is added as an amenity to the <place_id> details endpoint. This has been debugged in part 3.
+🐛 Every amenity that is registered is added as an amenity to all created Places at the places/<place_id> endpoints. This has been debugged in part 3.
 ```
 {
   "id": "1fa85f64-5717-4562-b3fc-2c963f66afa6",
