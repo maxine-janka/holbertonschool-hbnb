@@ -63,11 +63,11 @@ To help guide the implementation phases, the overall architecture, business logi
   
 __[Part 2](https://github.com/maxine-janka/holbertonschool-hbnb/tree/master/part2/hbnb): Implementation of Buisness Logic and API Endpoints__
 <br>
-In this phase the documented architecture was transformed by developing the application's core functionality. The Presenation and Buisness Logic Layers were built using Python and Flask. Key classes, methods, enetity relationships and API endpoints fore CRUD operations were implemented and tested.  An in-memory repository was used for object storage and validation, in preparation for persistence layer integration in Part 3.
+In this phase the documented architecture was transformed by developing the application's core functionality. The Presenation and Buisness Logic Layers were built using Python and Flask. Key classes, methods, relationships between entities and API endpoints for CRUD operations were implemented and tested.  An in-memory repository was used for object storage and validation, in preparation for the integration of the persistence layer in part 3.
 
 __[Part 3](https://github.com/maxine-janka/holbertonschool-hbnb/tree/master/part3/hbnb): Enhanced Backend with Authentication and Database Integration__
 <br>
-In part 3 the backend was extended through user authenitication, authorization and database integration. JWT-based user autheniication was implemeted with Flask-JWT-Extened, in-memory storage was replaced with MySQL using SQLAlchemy as the ORM, all CRUD oerations were refactored and relationships between entities were correctly mapped.
+In part 3 the backend was extended by implementing user authenitication, authorization and database integration. JWT-based user authentication was implemeted with Flask-JWT-Extended, in-memory storage was replaced with MySQL using SQLAlchemy as the ORM, all CRUD oerations were refactored and relationships between entities were correctly mapped.
 
 __[Part 4](): Simple Web Client__
 <br>
