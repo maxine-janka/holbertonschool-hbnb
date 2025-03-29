@@ -29,7 +29,7 @@ The application follows a 3 layered architecture with communication between thes
 
 __1. Presentation Layer:__
   <br>
-   Manages the interaction between the user and the application. it includes user-facing services and APIs eposed to the user.
+   Manages the interaction between the user and the application. it includes user-facing services and API endpoints exposed to the user.
  
 __2. Buisness Logic Layer:__
 <br>
