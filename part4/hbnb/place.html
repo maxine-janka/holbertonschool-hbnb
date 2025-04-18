@@ -6,29 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place Details</title>
     <link rel="stylesheet" href="./styles/places.css">
-    <link rel="icon" type="image/x-icon" href="./images/icon.png">
+    <link rel="icon" type="image/x-icon" href="./styles/images/icon.png">
+    <link rel="stylesheet" href="styles/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
+    <!--Header-->
     <header>
-        <nav>
-            <div class="nav-logo">
-                <a href="index.html">
-                    <img src="./images/logo.png" alt="hbnb logo">
-                </a>
-            </div>
-            <input type="search" id="location-search" />
-            <div class="filter-amenities-button">Filter</div>
-            <div class="login-button">Login</div>
-        </nav>
+        <section class="hbnb-nav">
+            <a href="index.html">
+                <img src="styles/images/hbnb-logo.png" alt="Hbnb logo" width="120" height="auto">
+            </a>
+            <section class="nav-search-and-filter">
+                <input type="search" id="location-search" class="nav-search-bar" placeholder="Search for a location"/>
+                <div class="filter-amenities-button"><i class="material-icons">filter_list</i>Filters</div>
+            </section>
+                <div class="login-button">Login</div>
+        </section>
     </header>
     <main>
         <hr>
         <section class="place-details">
             <h2>Place name</h2>
-            <img class="i1" src="./images/places/house.png" alt="house place-holder" width="100" height="100"> <!-- pic zoom hover click --> 
-            <img class="i2" src="./images/places/inside.png" width="100" height="100">
-            <img class="i3" src="./images/places/pool.png" width="100", height="100">
-            <img class="i4" src="./images/places/backyard.png" width="100" height="100">
+            <div>
+            <img class="i1" src="./styles/images/places/house.png" alt="house place-holder" width="100" height="100"> <!-- pic zoom hover click --> 
+            <img class="i2" src="./styles/images/places/inside.png" width="100" height="100">
+            <img class="i3" src="./styles/images/places/pool.png" width="100", height="100">
+            <img class="i4" src="./styles/images/places/backyard.png" width="100" height="100">
             <div class="show-all-button">show all</div>
             <div>
                 <table>
@@ -68,9 +72,10 @@
                 <a href="review.html"></a>
             </button>
         </section>
-        <footer>
-            <p class="footer-info">© 2025 Hbnb. All rights reserved.</p>
-        </footer>
+     <!--Footer-->
+     <footer>
+        <p class="footer-info">© 2025 Hbnb. All rights reserved.</p>
+    </footer>
     </main>
     <script src="./js_scripts/place_scripts.js"></script>
 </body>
