@@ -1,0 +1,73 @@
+main {
+    border: 1px solid #dcd8d8;
+    max-width: 800px;
+    height: 100%;
+    border-radius: 12px;
+    padding: 50px;
+    margin: 200px auto;
+    box-shadow: 1px 2px 5px rgba(211, 184, 184, 0.5);
+    font-family: Arial, Helvetica, sans-serif;
+}
+h2 {
+    border-bottom: 1px solid #dcd8d8;
+    text-align: center;
+    padding-bottom: 20px;
+    color: rgb(81, 77, 77);
+}
+.user-icon {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    margin: 40px auto;
+    background-size: cover;
+    background-position: center center;
+}
+.icon-background {
+    background-image: url(images/user-login-icon.png);
+}
+input {
+    display: block;
+    margin: 20px auto;
+    width: 400px;
+    height: 30px;
+    border-radius: 22px;
+    padding: 12px;
+    border: 1px solid #545252;
+    font-size: 16px;
+}
+button {
+    display: block;
+    margin: 0 auto;
+    width: 440px;
+    height: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400px;
+    background-color:  rgb(218, 59, 59);
+    font-size: 18px;
+    color: #fff;
+    border-radius: 12px;
+    margin-top: 20px;
+    border: none;
+    transition: background-color 0.3ms ease-in-out;
+}
+
+button:hover {
+    background-color: grey;
+    cursor: pointer;
+}
+.sign-up {
+    text-align: center;
+    margin-top: 20px;
+    color: #545252;
+}
+.sign-up-link {
+    font-weight: 600;
+    text-decoration: none;
+}
+.sign-up-link:visited {
+    color: #545252;
+    text-decoration: none;
+}
+.sign-up-link:hover {
+    text-decoration: underline;
+}

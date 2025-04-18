@@ -31,18 +31,24 @@ header {
     justify-content: center;
     gap: 5px;
     width: 70px;
-    border: 1px solid #dcd8d8;
     padding: 16px;
+    margin: 5px;
     border-radius: 22px;
-    background-color: #000;
+    background-color: rgb(218, 59, 59);
     color: #fff;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
 }
 .login-button:hover {
     cursor: pointer;
     background-color: grey;
 }
+.login-link:visited {
+    color: #fff;
+    text-decoration: none;
+}
 main {
-    padding-top: 120px;
+    padding-top: 140px;
     padding-bottom: 80px;
 }
 .hbnb-nav {
@@ -62,30 +68,40 @@ main {
     border-radius: 20px;
     font-size: 14px;
     width: 100px;
+    transition: box-shadow 0.3s ease-in-out;
 }
 .filter-amenities-button:hover {
     cursor: pointer;
+    box-shadow: 1px 2px 5px rgba(211, 184, 184, 0.5);
 }
 .hbnb-property-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 16px;
+    grid-gap: 30px;
     padding: 20px;
     margin: 0 auto;
     max-width: 1200px;
 }
+.property-grid-item {
+    transition: box-shadow 0.4ms ease-in-out;
+}
+.property-grid-item:hover {
+    cursor: pointer;
+    box-shadow: 1px 2px 5px rgba(190, 189, 189, 0.5);
+    border-radius: 12px;
+}
+
 .property-grid-item-image {
     background-size: cover;
     background-position: center center;
     width: 100%;
-    aspect-ratio: 4 / 3;
-    border-radius: 8px;
+    aspect-ratio: 4 / 4;
+    border-radius: 12px;
 }
 @media (max-width: 990px) {
     .hbnb-property-grid {
         max-width: 800px;
         grid-template-columns: 1fr 1fr;
-        gap: 16px;
     }
 }
 @media (max-width: 760px) {
@@ -93,9 +109,37 @@ main {
         max-width: 600px;
         grid-template-columns: 1fr;
     }
+    .property-grid-item-image {
+        width: 400px;
+        margin: 0 auto;
+    }
+    .property-grid-item-details {
+        text-align: center;
+    }
 }
 .property-grid-item-details {
     list-style: none;
+}
+.property-grid-item-details {
+    margin: 10px;
+}
+li {
+    padding: 2px;
+}
+li.property-grid-item-location {
+    font-size: 16px;
+
+}
+li.property-grid-item-description {
+    font-size: 14px;
+    color: rgb(94, 93, 93);
+
+}
+li.property-grid-item-price {
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: underline;
+
 }
 footer {
     position: fixed;
@@ -104,7 +148,6 @@ footer {
     width: 100%;
     background: #fff;
     border-top: 1px solid #dcd8d8;
-   
 }
 p.footer-info {
     text-align: center;
@@ -114,3 +157,6 @@ p.footer-info {
 .property-image-1 {
     background-image: url(images/hbnb-property-image-1.jpg);
 }
+
+/*    Login Page    */
+

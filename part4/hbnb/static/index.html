@@ -16,22 +16,28 @@
                 </a>
                 <section class="nav-search-and-filter">
                     <input type="search" id="location-search" class="nav-search-bar" placeholder="Search for a location"/>
-                    <div class="filter-amenities-button"><i class="material-icons">filter_list</i>Filters</div>
+                    <div class="filter-amenities-button">
+                        <i class="material-icons">filter_list</i>
+                        <p>Filters</p>
+                    </div>
                 </section>
-                    <div class="login-button">Login</div>
+                        <a href="login.html" class="login-button login-link">
+                            <i class="material-icons">perm_identity</i>
+                            <p>Login</p>
+                        </a>
             </section>
         </header>
         <!--Main-->
         <main>
         <!--Property Grid-->
-        <section class="hbnb-property-grid">
+        <section class="hbnb-property-grid" id="hbnb-property-grid">
             <!--property grid item-->    
             <section class="property-grid-item">
                 <div class="property-grid-item-image property-image-1"></div>
                 <ul class="property-grid-item-details">
                     <li class="property-grid-item-location">Location Place Holder</li>
                     <li class="property-grid-item-description">Description Place Holder</li>
-                    <li class="property-grid-item-price">Price</li>
+                    <li class="property-grid-item-price">$ Price</li>
                 </ul>
             </section>
 
@@ -41,7 +47,7 @@
                 <ul class="property-grid-item-details">
                     <li class="property-grid-item-location">Location Place Holder</li>
                     <li class="property-grid-item-description">Description Place Holder</li>
-                    <li class="property-grid-item-price">Price</li>
+                    <li class="property-grid-item-price">$ Price</li>
                 </ul>
             </section>
 
@@ -51,7 +57,7 @@
                 <ul class="property-grid-item-details">
                     <li class="property-grid-item-location">Location Place Holder</li>
                     <li class="property-grid-item-description">Description Place Holder</li>
-                    <li class="property-grid-item-price">Price</li>
+                    <li class="property-grid-item-price">$ Price</li>
                 </ul>
             </section>
 
@@ -61,7 +67,7 @@
                 <ul class="property-grid-item-details">
                     <li class="property-grid-item-location">Location Place Holder</li>
                     <li class="property-grid-item-description">Description Place Holder</li>
-                    <li class="property-grid-item-price">Price</li>
+                    <li class="property-grid-item-price">$ Price</li>
                 </ul>
             </section>
 
@@ -71,5 +77,7 @@
             <p class="footer-info">© 2025 Hbnb. All rights reserved.</p>
         </footer>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>

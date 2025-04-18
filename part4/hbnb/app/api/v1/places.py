@@ -112,8 +112,10 @@ class PlaceList(Resource):
             list_all_places.append({
                 'id': str(place.id),
                 'title': place.title,
+                'description': place.description,
                 'latitude': place.latitude,
                 'longitude': place.longitude,
+                'price': place.price
             })
         return list_all_places, 200
 
