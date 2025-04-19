@@ -4,7 +4,7 @@ main {
     height: 100%;
     border-radius: 12px;
     padding: 50px;
-    margin: 200px auto;
+    margin: 50px auto;
     box-shadow: 1px 2px 5px rgba(211, 184, 184, 0.5);
     font-family: Arial, Helvetica, sans-serif;
 }
