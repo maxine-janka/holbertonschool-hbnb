@@ -25,50 +25,53 @@
         </section>
     </header>
     <main>
-        <hr>
         <section class="place-details">
+            <!-- Place images, text etc. -->
             <h2>Place name</h2>
-            <div>
-            <img class="i1" src="./styles/images/places/house.png" alt="house place-holder" width="100" height="100"> <!-- pic zoom hover click --> 
-            <img class="i2" src="./styles/images/places/inside.png" width="100" height="100">
-            <img class="i3" src="./styles/images/places/pool.png" width="100", height="100">
-            <img class="i4" src="./styles/images/places/backyard.png" width="100" height="100">
-            <div class="show-all-button">show all</div>
-            <div>
-                <table>
-                    <tr>
-                        <th>title</th>
-                        <th>description</th>
-                        <th>latitude</th>
-                        <th>longitude</th>
-                        <th>owner</th>
-                    </tr>
-                    <tr>
-                        <td>place name</td>
-                        <td>high</td>
-                        <td>10</td>
-                        <td>180</td>
-                        <td>John Doe</td>
-                    </tr>
-                </table>
+            <div class="flex-box">
+                <div class="left">
+                    <div class="image-box">
+                        <img src="./styles/images/places/house.png">
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="grid">
+                        <img src="./styles/images/places/backyard.png">
+                        <img class="image3" src="./styles/images/places/inside.png">
+                        <img src="./styles/images/places/pool.png">
+                        <img class="image5" src="./styles/images/places/inside.png">                        
+                        <button class="image-btn">Show All Images</button>
+                    </div>
+                </div>
             </div>
-            <h3>Amenities list</h3>
-            <!-- img favicon -->
-             <ul>
-                <li></li> <!-- List -->
-             </ul>
-             <button>show</button>
         </section>
-        <div class="side">
-            <p>placeholder</p>
-        </div>
+            <hr>
+            <section class="amenity">
+                <!-- Amenity -->
+                <h3 style="padding: 10px;">Amenities list</h3>
+                 <div class="amenity-flex-box">
+                    <div class="amenity-list"> 
+                    </div>
+                    <div class="div-sidebar">
+                        <div class="flex-sidebar">
+                            sidebar
+                        </div>
+                    </div>
+                </div>
+                <button class="amenity-btn">show</button>
+            </section>
         <hr>
         <section class="review">
+            <!-- Review -->
             <h2>Reviews</h2>
+            <div>
             <ul>
-                <li></li>
+                <li>good</li>
+                <li>bad</li>
+                <li>good</li>
             </ul>
-            <button>show
+            </div>
+            <button class="review-btn">show
                 <a href="review.html"></a>
             </button>
         </section>
