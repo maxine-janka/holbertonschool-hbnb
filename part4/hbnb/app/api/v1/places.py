@@ -147,6 +147,7 @@ class PlaceResource(Resource):
             'id': place.id,
             'title': place.title,
             'description': place.description,
+            'price': place.price,
             'latitude': place.latitude,
             'longitude': place.longitude,
             'owner': {
@@ -172,12 +173,16 @@ class PlaceResource(Resource):
             
             place_reviews = []
             for review in reviews:
-                
                 if review.place_id == place.id:
+                    user = facade.get_user(review.user_id) 
                     place_reviews.append({
                         'id': str(review.id),
                         'text': review.text,
-                        'rating': review.rating
+                        'rating': review.rating,
+                        'user': {
+                            'first_name': user.first_name, 
+                            'last_name': user.last_name
+                        }
                     })
             return place_reviews, 200
 

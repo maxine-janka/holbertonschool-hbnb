@@ -22,8 +22,8 @@ header {
     height: 48px;
     padding: 18px;
     border-radius: 22px;
-    border: 1px solid #dcd8d8;
-    box-shadow: 1px 2px 5px rgba(211, 184, 184, 0.5);
+    border: 2px solid #888383;
+    box-shadow: 1px 2px 5px rgba(126, 124, 124, 0.5);
 }
 .login-button {
     display: flex;
@@ -59,17 +59,18 @@ main {
     border-bottom: 1px solid #dcd8d8;
 }
 .price-filter {
-    border: 1px solid #dcd8d8;
+    border: 2px solid #888383;
     padding: 12px;
     border-radius: 20px;
     font-size: 14px;
-    width: 120px;
+    width: 150px;
     transition: box-shadow 0.3s ease-in-out;
 }
 .price-filter:hover {
     cursor: pointer;
-    box-shadow: 1px 2px 5px rgba(211, 184, 184, 0.5);
+    box-shadow: 1px 2px 5px rgba(126, 124, 124, 0.5);
 }
+
 .hbnb-property-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -151,4 +152,3 @@ p.footer-info {
 .property-image-1 {
     background-image: url(images/hbnb-property-image-1.jpg);
 }
-

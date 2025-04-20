@@ -10,12 +10,12 @@
 <body>
     <main>
         <form id="login-form">
-            <a href="index.html"><i class="material-icons">arrow_back</i></a>
+            <button onclick="history.back()" class="back-button"><i class="material-icons">arrow_back</i></button>
             <h2>Log in to your account</h2>
             <div class="user-icon icon-background"></div>
             <input type="email" id="email" name="email" placeholder="Enter your email" required>
             <input type="password" id="password" name="password" placeholder="Enter your password" required>
-            <button type="submit">Log in</button>
+            <button type="submit" class="login-button">Log in</button>
         </form>
         <p class="sign-up">No account? <a href="" class="sign-up-link">Sign up here</a></p>
     </main>

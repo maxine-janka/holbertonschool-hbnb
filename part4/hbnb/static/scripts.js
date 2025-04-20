@@ -12,7 +12,7 @@ async function fetchPlaces() {
 
     } catch (error) {
         console.error('Error fetching places:', error);
-        return
+        return;
     }
     displayPlaces(places);
    
@@ -25,12 +25,12 @@ function displayPlaces(places) {
     places.forEach(place => {
         const placeElement = document.createElement('section');
         placeElement.className = 'property-grid-item';
-        placeElement.innerHTML = ` <div class="property-grid-item-image property-image-1"></div>
+        placeElement.innerHTML = `<a href="place.html?${place.id}" class="property-link"><div class="property-grid-item-image property-image-1"></div>
             <ul class="property-grid-item-details">
                 <li class="property-grid-item-location">${place.title}</li>
                 <li class="property-grid-item-description">${place.description}</li>
                 <li class="property-grid-item-price">$${place.price} per night</li>
-            </ul>`;
+            </ul></a>`;
         propertyGrid.appendChild(placeElement);
     });
 }
