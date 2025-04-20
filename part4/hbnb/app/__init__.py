@@ -4,6 +4,7 @@ from flask_restx import Api
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import config
 
 
@@ -39,5 +40,8 @@ def create_app(config_class=config.DevelopmentConfig):
     api.add_namespace(auth_ns, path='/api/v1/auth')
     api.add_namespace(protected_ns, path='/api/v1/')
     api.add_namespace(admin_ns, path='/api/v1/admin')
+
+    # Cross-Origin Resource Sharing (CORS) configure
+    CORS(app)
 
     return app
