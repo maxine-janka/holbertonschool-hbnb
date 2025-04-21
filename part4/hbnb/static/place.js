@@ -7,14 +7,38 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchPlaceDetails(placeIdParam);
 })
 
+function checkAuthentication() {
+  const token = getCookie('token');
+  const addReviewSection = document.getElementById('add-review');
+
+  if (!token) {
+      addReviewSection.style.display = 'none';
+  } else {
+      addReviewSection.style.display = 'block';
+      // Store the token for later use
+      fetchPlaceDetails(token, placeId);
+  }
+}
+
+function getCookie(name) {
+  // Function to get a cookie value by its name
+  const value = `;${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    checkCookie = parts.pop().split(';').shift();
+    console.log(checkCookie);
+    return checkCookie;
+  }
+}
 
 let placeData;
-async function fetchPlaceDetails(placeIdParam) {
+async function fetchPlaceDetails(token, placeIdParam) {
   try {
     //fetch place details + amenities list
     const placeResponse = await axios.get(`http://127.0.0.1:5000/api/v1/places/${placeIdParam}`, {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer: ${token}`,
       }
     });
     const placeData = placeResponse.data;
@@ -23,7 +47,7 @@ async function fetchPlaceDetails(placeIdParam) {
     // fetch reviews for place
     const reviewResponse = await axios.get(`http://127.0.0.1:5000/api/v1/places/${placeIdParam}/reviews`, {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       }
     });
     const reviewData = reviewResponse.data;
@@ -71,5 +95,43 @@ function displayPlaceDetails(placeData, reviewData) {
     reviewList.appendChild(reviewElement);
   });
 
- 
 }
+
+// Show Add Review Form - Not finished
+document.addEventListener('DOMContentLoaded', () => {
+  const reviewButton = document.getElementsByClassName('review-button');
+
+  if (reviewButton) {
+    reviewButton.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const token = getCookie('token');
+      console.log(`${token}`);
+      await addReviews(token);
+    })
+  }
+})
+
+async function addReviews(token) {
+  try {
+    const response = await fetch('http://127.0.0.1:5000/api/v1/places/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Bearer': `${token}`,
+      },
+      body: JSON.stringify({token})
+    });
+  
+  if (response.ok) {
+    const data = await response.json();
+    document.cookie = `token=${data.access_token}; path=/`;
+    window.location.href = 'index.html';
+  } else {
+    alert('Add Review Failed: ' + response.statusText);
+  }
+  } catch (err) {
+    alert(`Error: ${err.message}`);
+  }
+}
+
