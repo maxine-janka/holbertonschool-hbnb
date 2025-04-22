@@ -25,7 +25,7 @@ function displayPlaces(places) {
     places.forEach(place => {
         const placeElement = document.createElement('section');
         placeElement.className = 'property-grid-item';
-        placeElement.innerHTML = `<a href="place.html?${place.id}" class="property-link"><div class="property-grid-item-image property-image-1"></div>
+        placeElement.innerHTML = `<a href="place.html?placeId=${place.id}" class="property-link"><div class="property-grid-item-image property-image-1"></div>
             <ul class="property-grid-item-details">
                 <li class="property-grid-item-location">${place.title}</li>
                 <li class="property-grid-item-description">${place.description}</li>
