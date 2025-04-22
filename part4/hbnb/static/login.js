@@ -31,6 +31,7 @@ async function loginUser(email, password) {
         if (response.ok) {
             const data = await response.json();
             document.cookie = `token=${data.access_token}; path=/`;
+            setCookie('token', data.access_token, 1);
             window.location.href = 'index.html';
         } else {
         alert('Login failed: ' + response.statusText);
@@ -39,3 +40,11 @@ async function loginUser(email, password) {
         alert(`Error: ${err.message}`);
     }
 }
+
+// Token expiry length
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
