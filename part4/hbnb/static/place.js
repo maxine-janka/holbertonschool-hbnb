@@ -8,23 +8,22 @@ document.addEventListener('DOMContentLoaded', () => {
 function getPlaceIdFromURL() {
   // Extract the place ID from window.location.search
   const idParam = new URLSearchParams(window.location.search);
-  console.log(idParam.get('placeId'));
+  // console.log(idParam.get('placeId'));
   return idParam.get('placeId');
 }
 
 function checkAuthentication() {
   const token = getCookie('token');
-  /*const addReviewSection = document.getElementById('review-container-wrapper');
+  const reviewBtn = document.getElementById('review-button');
 
   if (!token) {
-      addReviewSection.style.display = 'none';
+      reviewBtn.style.display = 'none';
   } else {
-      addReviewSection.style.display = 'block';
+      reviewBtn.style.display = 'block';
       // Store the token for later use
-      fetchPlaceDetails(token);
       // console.log(token);
-  }*/
-    fetchPlaceDetails(token);
+  }
+  fetchPlaceDetails(token);
 }
 
 function getCookie(name) {
@@ -41,7 +40,7 @@ function getCookie(name) {
 async function fetchPlaceDetails(token) {
   // Make a GET request to fetch place details
   const placeId = getPlaceIdFromURL();
-  console.log(placeId);
+  //console.log(placeId);
   const placeUrl = `http://127.0.0.1:5000/api/v1/places/${placeId}`;
   const reviewUrl = `http://127.0.0.1:5000/api/v1/places/${placeId}/reviews`;
 
@@ -130,6 +129,7 @@ function displayPlaceDetails(place, review) {
     })
 
 }
+
 
 /* -------------------------------------------------------------------- */
 
