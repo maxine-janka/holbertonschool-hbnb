@@ -7,34 +7,46 @@
     <link rel="stylesheet" href="styles/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="./styles/images/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
         <!--Header-->
         <header>
-            <section class="hbnb-nav">
+            <nav>
                 <a href="index.html">
-                    <img src="styles/images/hbnb-logo.png" alt="Hbnb logo" width="120" height="auto">
+                <img src="styles/images/hbnb-logo.png" alt="Hbnb logo" class="hbnb-logo">
                 </a>
-                <section class="nav-search-and-filter">
-                    <input type="search" id="location-search" class="nav-search-bar" placeholder="Search for a location"/>
-          <select id="price-filter" class="price-filter">
-            <option value="all">$ Max Price</option>
-            <option value="all">All</option>
-            <option value="100">$100</option>
-            <option value="150">$150</option>
-            <option value="200">$200</option>
-            <option value="250">$250</option>
-            <option value="300">$300</option>
-            <option value="350">$350</option>
-          </select>                </section>
-                        <a href="login.html" class="login-button login-link">
-                            <i class="material-icons">perm_identity</i>
-                            <p>Login</p>
-                        </a>
-            </section>
+                <a href="login.html" class="login-button login-link" id="login-button">
+                <i class="material-icons">perm_identity</i>
+                <p>Login</p>
+                </a>
+            </nav>
         </header>
         <!--Main-->
         <main>
+        <section class="hero-container">
+            <div class="hero-title-container">
+                <h1 class="hero-banner-title-1">Unpack</h1>
+                <h2 class="hero-banner-title-2">the feeling of home</h2>
+            </div>
+            <section class="nav-search-and-filter">
+                <input type="search" id="location-search" class="nav-search-bar" placeholder="Search for a location"/>
+                <input type="date" value="Pick date" class="date-picker"/>
+                <select id="price-filter" class="price-filter">
+                    <option value="all">$ Max Price</option>
+                    <option value="all">All</option>
+                    <option value="100">$100</option>
+                    <option value="150">$150</option>
+                    <option value="200">$200</option>
+                    <option value="250">$250</option>
+                    <option value="300">$300</option>
+                    <option value="350">$350</option>
+                </select>
+                <button class="search-button">Search</button>                
+            </section>
+        </section>
         <!--Property Grid-->
         <section class="hbnb-property-grid" id="hbnb-property-grid">
             <!--property grid item-->    
@@ -44,7 +56,6 @@
             <p class="footer-info">© 2025 Hbnb. All rights reserved.</p>
         </footer>
     </main>
-
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="scripts.js"></script>
 </body>

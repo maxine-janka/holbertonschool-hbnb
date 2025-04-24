@@ -1,3 +1,14 @@
+// Fetch the token from stored cookie
+function fetchCookie(name) {
+    const tokenStr = `${document.cookie}`;
+    //console.log(tokenStr);
+    token = tokenStr.split("token=")[1];
+   // console.log(token);
+    if (!token)
+        return null
+    return token
+} 
+
 let places;
 async function fetchPlaces() {
     try {
@@ -14,8 +25,7 @@ async function fetchPlaces() {
         console.error('Error fetching places:', error);
         return;
     }
-    displayPlaces(places);
-   
+    displayPlaces(places);   
 }
 
 function displayPlaces(places) {
@@ -62,6 +72,28 @@ function filterPlaceByPrice(selectedPrice) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    const token = fetchCookie();
+    const loginButton = document.getElementById('login-button');
+    if (token) {
+        loginButton.textContent = 'Logout';
+        loginButton.href ='#';
+        loginButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.cookie = "token=; expires=Thu, 01 Jan 1970  00:00:00 UTC; path=/";
+            //console.log('token cookie cleared');
+            //console.log("Current cookies:", document.cookie);
+            loginButton.innerHTML = `<i class="material-icons">perm_identity</i>
+            <p>Login</p>`
+            loginButton.addEventListener('click', (e) => {
+                window.location.href = 'login.html';
+            })
+        });
+    } else {
+        loginButton.innerHTML = `<i class="material-icons">perm_identity</i>
+            <p>Login</p>`
+        };
+
     //console.log('Page loaded, call fetchPlaces');
     fetchPlaces();
 });

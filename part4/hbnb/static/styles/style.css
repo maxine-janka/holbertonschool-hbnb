@@ -1,117 +1,197 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Inter", sans-serif;
+    background-color: #fffdfd;
 }
+main {
+    padding-bottom: 80px;
+}
+/*Header-Nav*/
 header {
-    background-color: #fff;
-    width: 100%;
-    position: fixed;
+    position: sticky;
     top: 0;
-}
-.nav-search-and-filter {
-    display: flex;
-    align-items: center;
-    width: 600px;
-    gap: 10px;
-}
-.nav-search-bar {
+    z-index: 10px;
     width: 100%;
-    height: 48px;
-    padding: 18px;
-    border-radius: 22px;
-    border: 2px solid #888383;
-    box-shadow: 1px 2px 5px rgba(126, 124, 124, 0.5);
+    height: 90px;
+    background-color: #fffdfd;
+    border-bottom: 1px solid #ddd8d8; 
+}
+nav {
+    max-width: 1200px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+}
+.hbnb-logo {
+    height: auto;
+    width: 120px;
+    margin-left: 4px;  
 }
 .login-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
-    width: 70px;
+    gap: 8px;
+    width: 100px;
     padding: 16px;
-    margin: 5px;
     border-radius: 22px;
     background-color: rgb(218, 59, 59);
     color: #fff;
     text-decoration: none;
+    margin-right: 4px;
     transition: background-color 0.3s ease-in-out;
-}
-.login-button:hover {
-    cursor: pointer;
-    background-color: grey;
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
 }
 .login-link:visited {
     color: #fff;
     text-decoration: none;
 }
-main {
-    padding-top: 140px;
-    padding-bottom: 80px;
-}
-.hbnb-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px;
-    border-bottom: 1px solid #dcd8d8;
-}
-.price-filter {
-    border: 2px solid #888383;
-    padding: 12px;
-    border-radius: 20px;
-    font-size: 14px;
-    width: 150px;
-    transition: box-shadow 0.3s ease-in-out;
-}
-.price-filter:hover {
+.login-button:hover {
     cursor: pointer;
-    box-shadow: 1px 2px 5px rgba(126, 124, 124, 0.5);
+    background-color: grey;
 }
 
-.hbnb-property-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 30px;
-    padding: 20px;
-    margin: 0 auto;
+/*Hero banner*/
+.hero-container {
+    max-width: 100%;
+    height: 350px;
+    background-color: #888383;
+    background-image: url('images/hero-banner-image.jpg');
+    background-position: center;
+    background-size: cover;
+}
+.hero-title-container {
     max-width: 1200px;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 12px;
+}
+.hero-banner-title-1 {
+    font-size: 3rem;
+    margin-bottom: 3px;
+    color: #fff;
+    font-weight: 300;
+}
+.hero-banner-title-2 {
+    font-size: 2.5rem;
+    color: #fff;
+    font-weight: 500;
+}
+/*Search nav*/
+.nav-search-and-filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 10px;
+    position: relative;
+    top: -20px;
+}
+.nav-search-bar {
+    width: 40%;
+    height: 48px;
+    padding: 18px;
+    border-radius: 22px;
+    border: 3px solid rgb(218, 59, 59);
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    transition: box-shadow 0.3s ease-in-out;
+}
+.date-picker {
+    padding: 10px;
+    border:  3px solid rgb(218, 59, 59);
+    border-radius: 22px;
+    height: 47px;
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 0.8rem;
+    transition: box-shadow 0.3s ease-in-out;
+}
+.price-filter {
+    border: 3px solid rgb(218, 59, 59);
+    padding: 12px;
+    border-radius: 22px;
+    width: 130px;
+    transition: box-shadow 0.3s ease-in-out;
+    font-family: "Inter", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: box-shadow 0.3s ease-in-out;
+}
+.price-filter:hover, .date-picker:hover, .nav-search-bar:hover,.search-button:hover {
+    cursor: pointer;
+    box-shadow: 1px 4px 8px rgba(101, 95, 95, 0.5);
+}
+.price-filter:focus, .date-picker:focus, .nav-search-bar:focus {
+    outline: none;
+}
+.search-button {
+    padding: 12px;
+    width: 100px;
+    border-radius: 22px;
+    border: 3px solid rgb(218, 59, 59);
+    background-color: rgb(218, 59, 59);
+    color: #fff;
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    transition: box-shadow 0.3s ease-in-out;
+}
+/*Property Grid*/
+.hbnb-property-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 100px auto;
+    max-width: 1400px;
+    gap: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .property-grid-item {
     transition: box-shadow 0.4ms ease-in-out;
+    width: 320px;
+    margin-bottom: 10px;
+    background-color: #fff;
 }
 .property-grid-item:hover {
     cursor: pointer;
-    box-shadow: 1px 2px 5px rgba(190, 189, 189, 0.5);
+    box-shadow: -2px 4px 6px 3px rgba(190, 189, 189, 0.5);
     border-radius: 12px;
 }
-
 .property-grid-item-image {
     background-size: cover;
     background-position: center center;
     width: 100%;
-    aspect-ratio: 4 / 4;
+    aspect-ratio: 4/4;
     border-radius: 12px;
 }
-@media (max-width: 990px) {
-    .hbnb-property-grid {
-        grid-template-columns: 1fr 1fr;
+.property-image-1 {
+    background-image: url(images/hbnb-property-image.jpg);
+}
+
+@media (max-width: 1100px) {
+    .property-grid-item {
+        width: 400px;
     }
 }
-@media (max-width: 760px) {
-    .hbnb-property-grid {
-        grid-template-columns: 1fr;
+@media (max-width: 900px) {
+    .property-grid-item{
+        width: 500px; 
     } 
-    .property-grid-item-image {
-        max-width: 400px;
-        margin: 0 auto;
-    }
-    .property-grid-item-details {
-        text-align: center;
-    }
 }
+/*Grid text*/
 .property-grid-item-details {
     list-style: none;
 }
@@ -122,20 +202,32 @@ li {
     padding: 2px;
 }
 li.property-grid-item-location {
-    font-size: 16px;
-
+    font-size: 1rem;
+    color: #2f2c2c;
+    font-weight: 600;
+    text-decoration: none;
 }
 li.property-grid-item-description {
-    font-size: 14px;
+    font-size: 0.9rem;
     color: rgb(94, 93, 93);
-
 }
 li.property-grid-item-price {
-    font-size: 14px;
+    font-size: 0.9rem;
     font-weight: 500;
-    text-decoration: underline;
-
+    text-decoration: none;
+    color:#2f2c2c;
 }
+li.property-grid-item-location:visited {
+    color: #2f2c2c;
+    text-decoration: none;
+}
+li.property-grid-item-price:visited {
+    color:#2f2c2c;
+}
+a:link {
+    text-decoration: none;;
+}
+/*Footer*/
 footer {
     position: fixed;
     bottom: 0;
@@ -149,6 +241,3 @@ p.footer-info {
     padding: 24px;
 }
 
-.property-image-1 {
-    background-image: url(images/hbnb-property-image-1.jpg);
-}
