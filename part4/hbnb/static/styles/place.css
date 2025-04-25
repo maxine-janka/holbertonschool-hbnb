@@ -1,14 +1,17 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Inter", sans-serif;
+    color: #2f2c2c;
+    background-color: #fffdfd;
 }
 header {
-    background-color: #fff;
+    background-color: #fffdfd;
     width: 100%;
-    position: fixed;
+    position: sticky;
     top: 0;
     z-index: 1000;
 }
@@ -54,24 +57,29 @@ header {
     cursor: pointer;
     background-color: grey;
 }
-.login-link:visited {
+a.login-link:visited {
     color: #fff;
     text-decoration: none;
 }
-h1 {
-    margin: 150px 0 20px 170px;
-    max-width: 500px;
-    width: 100%
+.place-title-and-imgs-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.place-header {
+    margin: 30px auto;
+    width: 100%;
+    padding-left: 20px;
 }
 /* Place image grid */
 .place-image-grid {
-    margin: 0 auto 50px;
+    margin: 0 auto;
     display: grid;
     gap: 12px;
     grid-template-columns: 2fr 1fr;
     box-sizing: border-box;
-    width: 80%;
-    max-width: 1100px;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 .place-grid-img-1 {
     grid-row: span 2;
@@ -99,6 +107,14 @@ h1 {
     }
     .place-image-grid > img {
         border-radius: 12px;
+        width: 85%;
+        margin: 0 auto;
+    }
+    .place-header {
+        text-align: center;
+    }
+    ul.list-of-amenities {
+        columns: 1;
     }
 }
 
@@ -107,15 +123,19 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: 30px;
-    margin: 0 auto;
-    max-width: 1100px;
-    width: 80%;
+    margin: 30px auto;
+    max-width: 1200px;
+    width: 100%;
+    padding-left: 70px;
+    padding-right: 70px;
 }
 .place-host-icon {
-    border: 1px solid #000;
     border-radius: 50%;
     width: 70px;
     height: 70px;
+    background-image: url(images/user-login-icon.png);
+    background-position: center;
+    background-size: cover;
 }
 .owner-name {
     font-size: 20px;
@@ -156,16 +176,17 @@ h3 {
     margin-bottom: 10px;
 }
 .user-review-icon {
-    border: 1px solid #000;
     width: 50px;
     height: 50px;
     border-radius: 50%;
+    background-image: url(images/user-login-icon.png);
+    background-position: center;
+    background-size: cover;
 }
 .users-review-text {
     margin: 10px 0 20px 0;
 }
 .add-review-button {
-    display: block;
     color: #fff;
     background-color: rgb(218, 59, 59);
     width: max-content;;
@@ -173,6 +194,7 @@ h3 {
     text-align: center;
     border-radius: 22px;
     transition: background-color 0.3s ease-in-out;
+    font-size: 1rem;;
 }
 .add-review-button:hover {
     cursor: pointer;
