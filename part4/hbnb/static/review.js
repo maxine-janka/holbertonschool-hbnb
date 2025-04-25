@@ -6,7 +6,6 @@ const reviewText = document.getElementById("review");
 const submitBtn = document.getElementById("submit");
 const reviewsContainer = document.getElementById("reviews");
 
-
 function getCookie(name) {
     // Function to get a cookie value by its name
     const value = `; ${document.cookie}`;
@@ -19,8 +18,8 @@ function getCookie(name) {
 }
 
 function getPlaceIdFromURL() {
-	// Extract the place ID from window.location.search
-	const idParam = new URLSearchParams(window.location.search);
+    // Extract the place ID from window.location.search
+    const idParam = new URLSearchParams(window.location.search);
 	return idParam.get('placeId');
 }
 
@@ -51,36 +50,48 @@ stars.forEach((star) => {
 	});
 });
 
-submitBtn.addEventListener("click", (event) => {
-	event.preventDefault();
-	const review = reviewText.value;
-	const userRating = parseInt(rating.innerText);
+// form submit
+document.addEventListener('DOMContentLoaded', () => {
+	const reviewForm = document.getElementById('review-form');
+	const token = getCookie('token');
 	const placeId = getPlaceIdFromURL();
+	// click star rating and write text
+	submitBtn.addEventListener("click", () => {
+		if (reviewForm) {
+			reviewForm.addEventListener('submit', async (event) => {
+			event.preventDefault();
+			// Get review text from form
+			const review = reviewText.value;
+			const userRating = parseInt(rating.innerText);
 
-	if (!userRating || !review) {
-		alert("Please select a rating and provide a review before submitting.");
-		return;
-	}
+			if (!userRating || !review) {
+				alert("Please select a rating and provide a review before submitting.");
+				return;
+			}
+		
+			if (userRating > 0) {
+				const reviewElement = document.createElement("div");
+				reviewElement.classList.add("review");
+				reviewElement.innerHTML =
+				`<p><strong>Rating: ${userRating}/5</strong></p><p>${review}</p>`;
+				reviewsContainer.appendChild(reviewElement);
 
-	if (userRating > 0) {
-		const reviewElement = document.createElement("div");
-		reviewElement.classList.add("review");
-		reviewElement.innerHTML = 
-        `<p><strong>Rating: ${userRating}/5</strong></p><p>${review}</p>`;
-		reviewsContainer.appendChild(reviewElement);
-
-		submitReview(placeId, review, userRating);
-
-		// Reset styles after submitting
-		reviewText.value = "";
-		rating.innerText = "0";
-		stars.forEach((s) => s.classList.remove("one", 
-												"two", 
-												"three", 
-												"four", 
-												"five", 
-												"selected"));
-	}
+				// Make AJAX request to submit review
+				await submitReview(token, placeId, review, userRating);
+		
+				// Reset styles after submitting
+				reviewText.value = "";
+				rating.innerText = "0";
+				stars.forEach((s) => s.classList.remove("one", 
+														"two", 
+														"three", 
+														"four", 
+														"five", 
+														"selected"));
+				}
+			});
+		}
+	});
 });
 
 function getStarColorClass(value) {
@@ -118,27 +129,33 @@ window.addEventListener('click', (event) => {
     }
 });
 
-async function submitReview(placeId, reviewText, rating) {
-    const token = checkAuthentication();
-    if (!token) {
-        alert('You are not authenticated. Please log in first.');
-        return;
-    }
 
-	// Make a POST request to submit review data
-	const url = 'http://127.0.0.1:5000/api/v1/reviews/';
-	console.log(placeId, reviewText, rating)
+async function submitReview(token, placeId, reviewText, rating) {
+    // Make a POST request to submit review data
     // Include the token in the Authorization header
+    // Send placeId and reviewText in the request body
+	const url = 'http://127.0.0.1:5000/api/v1/reviews/';
 	try {
+		const form = document.getElementById('review-form');
+		const formData = new FormData(form);
+		formData.append("text", `${reviewText}`);
+		formData.append("rating", `${rating}`);
+		formData.append("place_id", `${placeId}`);
+
+		for (item of formData) {
+			console.log(item[0], item[1]);
+		}
+
 		const response = await fetch(url, {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${token}`,
+				'Authorization': `Bearer ${token}`, // JWT token
+				'Content-Type': 'application/json'
 			},
-			// Send placeId and reviewText in the request body
-			body: JSON.stringify({placeId, reviewText, rating})
+			body: formData
 		});
+
+		console.log(response);
 		// Handle the response
 		handleResponse(response);
 	} catch (err) {
@@ -149,6 +166,7 @@ async function submitReview(placeId, reviewText, rating) {
 function handleResponse(response) {
     if (response.ok) {
         alert('Review submitted successfully!');
+        // Clear the form
     } else {
         alert('Failed to submit review');
     }

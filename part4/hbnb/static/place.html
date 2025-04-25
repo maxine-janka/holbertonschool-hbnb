@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place</title>
+    <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/place.css">
     <link rel="stylesheet" href="styles/review.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="./styles/images/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -23,7 +27,6 @@
             </a>
         </nav>
     </header>
-    
     <main>
         <h1 class="place-header" id="place-header"></h1>
         <section class="place-image-grid">
@@ -80,25 +83,26 @@
              <div id="myModal" class="modal">
                 <div class="modal-content">
                     <span class="close" id="close">&times;</span>
-                    
-                    <div class="container" id="container">
-                        <h1>Review Place</h1>
-                        <div class="rating">
-                            <span id="rating">0</span>/5
+                    <!-- Content -->
+                     <form id="review-form" action="./review.js" method="post">
+                        <div class="container" id="container">
+                            <h1>Review Place</h1>
+                            <div class="rating">
+                                <span id="rating">0</span>/5
+                            </div>
+                            <div class="stars" id="stars">
+                                <span class="fa fa-star star" data-value="1"></span>
+                                <span class="fa fa-star star" data-value="2"></span>
+                                <span class="fa fa-star star" data-value="3"></span>
+                                <span class="fa fa-star star" data-value="4"></span>
+                                <span class="fa fa-star star" data-value="5"></span>
+                            </div>
+                            <p>Share your review:</p>
+                            <textarea id="review" placeholder="Write your review here"></textarea>
+                            <button id="submit">Submit</button>
+                            <div class="reviews" id="reviews"></div>
                         </div>
-                        <div class="stars" id="stars">
-                            <span class="fa fa-star star" data-value="1"></span>
-                            <span class="fa fa-star star" data-value="2"></span>
-                            <span class="fa fa-star star" data-value="3"></span>
-                            <span class="fa fa-star star" data-value="4"></span>
-                            <span class="fa fa-star star" data-value="5"></span>
-                        </div>
-                        <p>Share your review:</p>
-                        <textarea id="review" placeholder="Write your review here"></textarea>
-                        <button id="submit">Submit</button>
-                        <div class="reviews" id="reviews"></div>
-                    </div>
-
+                    </form>
                 </div>
              </div>
         </section>
