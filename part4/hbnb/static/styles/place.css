@@ -34,18 +34,21 @@ header {
     box-shadow: 1px 2px 5px rgba(126, 124, 124, 0.5);
 }
 .login-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    width: 70px;
-    padding: 16px;
-    margin: 5px;
     border-radius: 22px;
     background-color: rgb(218, 59, 59);
-    color: #fff;
+    width: 100px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
     text-decoration: none;
+    margin-right: 4px;
     transition: background-color 0.3s ease-in-out;
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    justify-content: center;
+    gap: 8px;
+    color: #fff;
 }
 .login-button:hover {
     cursor: pointer;

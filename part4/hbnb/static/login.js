@@ -32,7 +32,7 @@ async function loginUser(email, password) {
             const data = await response.json();
             document.cookie = `token=${data.access_token}; path=/`;
             setCookie('token', data.access_token, 1);
-            window.location.href = 'index.html';
+            window.location.href = document.referrer;
             
             window.localStorage.setItem('email', email);
 

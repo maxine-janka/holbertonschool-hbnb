@@ -22,6 +22,19 @@ function checkAuthentication() {
       reviewBtn.style.display = 'block';
       // Store the token for later use
       // console.log(token);
+      const loginButton = document.getElementById('login-button');
+      loginButton.textContent = 'Logout';
+      loginButton.href ='#';
+      loginButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.cookie = "token=; expires=Thu, 01 Jan 1970  00:00:00 UTC; path=/";
+        loginButton.innerHTML = `<i class="material-icons">perm_identity</i>
+            <p>Login</p>`
+            loginButton.addEventListener('click', (e) => {
+                window.location.href = 'login.html';
+            })
+  });
+
   }
   fetchPlaceDetails(token);
 }
