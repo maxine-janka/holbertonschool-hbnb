@@ -50,48 +50,45 @@ stars.forEach((star) => {
 	});
 });
 
+const placeId = getPlaceIdFromURL();
+const token = getCookie('token');
+
 // form submit
 document.addEventListener('DOMContentLoaded', () => {
 	const reviewForm = document.getElementById('review-form');
-	const token = getCookie('token');
-	const placeId = getPlaceIdFromURL();
-	// click star rating and write text
-	submitBtn.addEventListener("click", () => {
-		if (reviewForm) {
-			reviewForm.addEventListener('submit', async (event) => {
-			event.preventDefault();
-			// Get review text from form
-			const review = reviewText.value;
-			const userRating = parseInt(rating.innerText);
 
-			if (!userRating || !review) {
-				alert("Please select a rating and provide a review before submitting.");
-				return;
-			}
-		
-			if (userRating > 0) {
-				const reviewElement = document.createElement("div");
-				reviewElement.classList.add("review");
-				reviewElement.innerHTML =
-				`<p><strong>Rating: ${userRating}/5</strong></p><p>${review}</p>`;
-				reviewsContainer.appendChild(reviewElement);
+	reviewForm.addEventListener('submit', async (event) => {
+		event.preventDefault();
+		// Get review text from form
+		const review = reviewText.value;
+		const userRating = parseInt(rating.innerText);
 
-				// Make AJAX request to submit review
-				await submitReview(token, placeId, review, userRating);
-		
-				// Reset styles after submitting
-				reviewText.value = "";
-				rating.innerText = "0";
-				stars.forEach((s) => s.classList.remove("one", 
-														"two", 
-														"three", 
-														"four", 
-														"five", 
-														"selected"));
-				}
-			});
+		if (!userRating || !review) {
+			alert("Please select a rating and provide a review before submitting.");
+			return;
 		}
-	});
+	
+		if (userRating > 0) {
+			const reviewElement = document.createElement("div");
+			reviewElement.classList.add("review");
+			reviewElement.innerHTML =
+			`<p><strong>Rating: ${userRating}/5</strong></p><p>${review}</p>`;
+			reviewsContainer.appendChild(reviewElement);
+
+			// Make AJAX request to submit review
+			await fetchUser(review, userRating);
+	
+			// Reset styles after submitting
+			reviewText.value = "";
+			rating.innerText = "0";
+			stars.forEach((s) => s.classList.remove("one", 
+													"two", 
+													"three", 
+													"four", 
+													"five", 
+													"selected"));
+			}
+		});
 });
 
 function getStarColorClass(value) {
@@ -129,30 +126,77 @@ window.addEventListener('click', (event) => {
     }
 });
 
+/*async function loginUser() {
+    try {
+        const response = await fetch('http://127.0.0.1:5000/api/v1/auth/login', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+    
+        if (response.ok) {
+            const data = await response.json();
+			email = data;
+			console.log(email);
+        } else {
+			throw new Error(`Response status: ${response.status}`);
+        }
+    } catch (err) {
+        alert(`Error: ${err.message}`);
+    }
+}*/
 
-async function submitReview(token, placeId, reviewText, rating) {
+async function fetchUser(reviewText, rating) {
+	const userListUrl = 'http://127.0.0.1:5000/api/v1/users/';
+
+	try {
+		const response = await fetch(userListUrl, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		if (!response.ok) {
+			throw new Error(`Response status: ${response.status}`);
+		} else {
+			const userData = await response.json();
+			await submitReview(userData, reviewText, rating);
+		}
+	} catch (err) {
+		console.error(err.message);
+	}
+}
+
+async function submitReview(user, reviewText, rating) {
     // Make a POST request to submit review data
     // Include the token in the Authorization header
     // Send placeId and reviewText in the request body
 	const url = 'http://127.0.0.1:5000/api/v1/reviews/';
-	try {
-		const form = document.getElementById('review-form');
-		const formData = new FormData(form);
-		formData.append("text", `${reviewText}`);
-		formData.append("rating", `${rating}`);
-		formData.append("place_id", `${placeId}`);
 
-		for (item of formData) {
-			console.log(item[0], item[1]);
-		}
+	console.log(localStorage.getItem('email'));
+	const userEmail = localStorage.getItem('email');
+
+	const findUser = user.find((item) => item.email === userEmail);
+	console.log(findUser);
+	console.log(findUser.id);
+	
+	try {
+		const payload = {
+			text: reviewText,
+			rating: rating,
+			place_id: placeId,
+			user_id: findUser.id
+		};
 
 		const response = await fetch(url, {
 			method: 'POST',
 			headers: {
+				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${token}`, // JWT token
-				'Content-Type': 'application/json'
 			},
-			body: formData
+			body: JSON.stringify(payload)
 		});
 
 		console.log(response);

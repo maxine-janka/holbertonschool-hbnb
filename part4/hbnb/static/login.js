@@ -33,6 +33,9 @@ async function loginUser(email, password) {
             document.cookie = `token=${data.access_token}; path=/`;
             setCookie('token', data.access_token, 1);
             window.location.href = 'index.html';
+            
+            window.localStorage.setItem('email', email);
+
         } else {
         alert('Login failed: ' + response.statusText);
         }
