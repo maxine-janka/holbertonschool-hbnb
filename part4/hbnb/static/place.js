@@ -67,9 +67,7 @@ async function fetchPlaceDetails(token) {
           throw new Error(`Response status: ${placeResponse.status} and ${reviewResponse.status}`);
       } else {
           const placeData = await placeResponse.json();
-          console.log(placeData);
           const reviewData = await reviewResponse.json();
-          console.log(reviewData);
           displayPlaceDetails(placeData, reviewData);
       }
   } catch (err) {
