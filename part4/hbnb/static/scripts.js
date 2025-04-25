@@ -35,41 +35,64 @@ function displayPlaces(places) {
     places.forEach(place => {
         const placeElement = document.createElement('section');
         placeElement.className = 'property-grid-item';
-        placeElement.innerHTML = `<a href="place.html?placeId=${place.id}" class="property-link"><div class="property-grid-item-image property-image-1"></div>
-            <ul class="property-grid-item-details">
-                <li class="property-grid-item-location">${place.title}</li>
-                <li class="property-grid-item-description">${place.description}</li>
-                <li class="property-grid-item-price">$${place.price} per night</li>
-            </ul></a>`;
+        placeElement.innerHTML = `
+        <a href="place.html?placeId=${place.id}" class="property-link">
+            <div class="property-grid-item-image property-image-1"></div>
+            <div class="property-grid-details">
+                <p class="property-grid-item-location">${place.title}</p>
+                <p class="property-grid-item-description">${place.description}</p>
+                <p class="property-grid-item-price">$${place.price} per night</p>
+            </div>
+        </a>`;
         propertyGrid.appendChild(placeElement);
     });
 }
 
-// Filter place by price
-const priceFilter = document.getElementById('price-filter');
-    priceFilter.addEventListener('change', (event) => {
-        filterPlaceByPrice(event.target.value);
-    });
+//Function to apply price and search filter
+function applyFilters() {
+    const titleSearchQuery = document.getElementById('title-search').value;
+    //console.log(titleSearchQuery);
+    const selectedPrice = document.getElementById('price-filter').value;
+    // console.log(selectedPrice);
 
-function filterPlaceByPrice(selectedPrice) {
-    if (selectedPrice === 'all') {
-        displayPlaces(places);
-        return;
+    //places array
+    let filteredPlaces = places;
+
+    // filter title search when not empty
+    if (titleSearchQuery) {
+        filteredPlaces = filteredPlaces.filter(place =>
+            place.title.toLowerCase().includes(titleSearchQuery.toLowerCase())
+        );
     }
 
-    const price = parseInt(selectedPrice);
-    //console.log(price);
+    // filter price
+    if (selectedPrice !== 'all') {
+        const SelectedPriceAsInt = parseInt(selectedPrice);
+        filteredPlaces = filteredPlaces.filter(place => place.price <= SelectedPriceAsInt);
+        }
 
-    const filteredPlaces = places.filter(place => {
-        let Listedprice = place.price;
-        //console.log(Listedprice);
-        //console.log(places)
-        //Only return filtered place objects from places array
-        return Listedprice <= price;
-    });
-    //console.log(filteredPlaces)
-    displayPlaces(filteredPlaces);
-}
+        // Call display places with applied filters
+        console.log(filteredPlaces);
+        displayPlaces(filteredPlaces);
+    }
+
+    
+
+// Filter by title - Search button event listener
+const searchButton = document.getElementById('search-button');
+//console.log(searchButton);
+searchButton.addEventListener('click', applyFilters);
+
+// Filter place by price - Dropdown event listener
+const priceFilter = document.getElementById('price-filter');
+    priceFilter.addEventListener('change', applyFilters);
+
+// Search on pressing enter key
+document.getElementById('title-search').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        applyFilters();
+    }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
 
