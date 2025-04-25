@@ -21,6 +21,8 @@ def create_app(config_class=config.DevelopmentConfig):
     jwt.init_app(app)
     db.init_app(app)
     api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API', doc='/api/v1/')
+
+    # Cross-Origin Resource Sharing (CORS) configure
     CORS(app)
     
 
@@ -40,8 +42,5 @@ def create_app(config_class=config.DevelopmentConfig):
     api.add_namespace(auth_ns, path='/api/v1/auth')
     api.add_namespace(protected_ns, path='/api/v1/')
     api.add_namespace(admin_ns, path='/api/v1/admin')
-
-    # Cross-Origin Resource Sharing (CORS) configure
-    CORS(app)
 
     return app
