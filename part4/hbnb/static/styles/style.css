@@ -34,27 +34,23 @@ nav {
     margin-left: 4px;  
 }
 .login-button {
-    display: block;
     border-radius: 22px;
     background-color: rgb(218, 59, 59);
-    width: 400px;
-}
-.login-button-content {
+    width: 100px;
+    padding: 16px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    
-    color: #fff;
     text-decoration: none;
     margin-right: 4px;
     transition: background-color 0.3s ease-in-out;
     font-family: "Inter", sans-serif;
     font-size: 1rem;
     font-weight: 500;
+    justify-content: center;
+    gap: 8px;
 }
-.login-link:visited {
+
+a.login-link:visited {
     color: #fff;
     text-decoration: none;
 }
