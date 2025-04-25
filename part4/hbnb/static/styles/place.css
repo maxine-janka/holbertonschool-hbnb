@@ -162,9 +162,10 @@ h3 {
     margin: 10px 0 20px 0;
 }
 .add-review-button {
+    display: block;
     color: #fff;
     background-color: rgb(218, 59, 59);
-    width: 100px;
+    width: max-content;;
     padding: 18px;
     text-align: center;
     border-radius: 22px;
@@ -173,6 +174,14 @@ h3 {
 .add-review-button:hover {
     cursor: pointer;
     background-color: grey;
+}
+.modal-content {
+    background-color: transparent;
+    max-width: 50%;
+}
+.container {
+    margin-left: 50%;
+    transform: translateX(-50%);
 }
 footer {
     position: fixed;

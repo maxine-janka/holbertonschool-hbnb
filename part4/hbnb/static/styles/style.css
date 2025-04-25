@@ -34,14 +34,18 @@ nav {
     margin-left: 4px;  
 }
 .login-button {
+    display: block;
+    border-radius: 22px;
+    background-color: rgb(218, 59, 59);
+    width: 400px;
+}
+.login-button-content {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    width: 100px;
-    padding: 16px;
-    border-radius: 22px;
-    background-color: rgb(218, 59, 59);
+    width: 100%;
+    
     color: #fff;
     text-decoration: none;
     margin-right: 4px;
