@@ -5,6 +5,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     text-align: center;
     width: 400px;
+    font-family: "Inter", sans-serif;
 }
 
 .container h1 {
@@ -36,6 +37,7 @@ textarea {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-family: "Inter", sans-serif;
 }
 
 button {
@@ -45,6 +47,7 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    border-radius: 22px;
 }
 
 button:hover {
