@@ -126,26 +126,6 @@ window.addEventListener('click', (event) => {
     }
 });
 
-/*async function loginUser() {
-    try {
-        const response = await fetch('http://127.0.0.1:5000/api/v1/auth/login', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        });
-    
-        if (response.ok) {
-            const data = await response.json();
-			email = data;
-			console.log(email);
-        } else {
-			throw new Error(`Response status: ${response.status}`);
-        }
-    } catch (err) {
-        alert(`Error: ${err.message}`);
-    }
-}*/
 
 async function fetchUser(reviewText, rating) {
 	const userListUrl = 'http://127.0.0.1:5000/api/v1/users/';
@@ -210,7 +190,7 @@ async function submitReview(user, reviewText, rating) {
 function handleResponse(response) {
     if (response.ok) {
         alert('Review submitted successfully!');
-        // Clear the form
+		modal.style.display = 'none'
     } else {
         alert('Failed to submit review');
     }
