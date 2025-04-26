@@ -4,8 +4,10 @@
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     text-align: center;
-    width: 400px;
+    width: 80%;
     font-family: "Inter", sans-serif;
+    margin-left: 50%;
+    transform: translateX(-50%);
 }
 
 .container h1 {
@@ -86,17 +88,17 @@ button:hover {
 }
   
 .modal-content {
-    background-color: #fefefe;
+    background-color: rgb(230, 226, 226);
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    max-width: 80%;
 }
   
 .close {
     color: red;
     float: right;
-    font-size: 28px;
+    font-size: 36px;
     font-weight: bold;
 }
   
@@ -108,4 +110,8 @@ button:hover {
 
 .stars {
     color: black;
+}
+
+.form-text {
+    height: 200px;
 }

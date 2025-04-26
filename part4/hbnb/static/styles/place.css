@@ -201,14 +201,7 @@ h3 {
     cursor: pointer;
     background-color: grey;
 }
-.modal-content {
-    background-color: transparent;
-    max-width: 50%;
-}
-.container {
-    margin-left: 50%;
-    transform: translateX(-50%);
-}
+
 footer {
     position: fixed;
     bottom: 0;

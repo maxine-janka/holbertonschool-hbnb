@@ -120,6 +120,9 @@ function displayPlaceDetails(place, review) {
       amenititesList.appendChild(newElement);
   });
 
+  const formHeader = document.getElementById('form-header');
+  formHeader.innerHTML = `Review ${place.title}`;
+  
   // Reviews
   // Overwrite review section
   const reviewWrapper = document.getElementById('review-container-wrapper');

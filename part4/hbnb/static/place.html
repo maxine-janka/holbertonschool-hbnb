@@ -88,7 +88,7 @@
                     <!-- Content -->
                     <form id="review-form" action="./review.js" method="post">
                         <div class="container" id="container">
-                            <h1 class="form-header">Review Place</h1>
+                            <h1 id="form-header">Review Place</h1>
                             <div class="rating">
                                 <span id="rating">0</span>/5
                             </div>
@@ -99,8 +99,8 @@
                                 <span class="fa fa-star star" data-value="4"></span>
                                 <span class="fa fa-star star" data-value="5"></span>
                             </div>
-                            <p>Share your review:</p>
-                            <textarea id="review" placeholder="Write your review here"></textarea>
+                            <p style="padding: 5px;">Share your review:</p>
+                            <textarea class="form-text" id="review" placeholder="Write your review here"></textarea>
                             <button id="submit">Submit</button>
                             <div class="reviews" id="reviews"></div>
                         </div>
