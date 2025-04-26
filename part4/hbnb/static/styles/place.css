@@ -162,11 +162,12 @@ h3 {
     margin-bottom: 100px;
 }
 .review-container-wrapper {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding-top: 20px;
 }
 .review-container {
-    width: 300px;
     margin: 10px;
 }
 .user-review-details {
@@ -219,4 +220,11 @@ footer {
 p.footer-info {
     text-align: center;
     padding: 24px;
+}
+
+.fa-star {
+    color: black;
+}
+.fa-star.checked {
+    color: rgb(237, 198, 22);
 }

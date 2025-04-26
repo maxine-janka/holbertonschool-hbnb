@@ -121,23 +121,61 @@ function displayPlaceDetails(place, review) {
   });
 
   // Reviews
-    review.forEach(element => {
-      // Reviewer
-      const reviewName = document.getElementById('user-review-name');
-      reviewName.innerHTML = '';
-      reviewName.innerHTML = `${element.user.first_name} ${element.user.last_name}`;
+  // Overwrite review section
+  const reviewWrapper = document.getElementById('review-container-wrapper');
+  reviewWrapper.innerHTML = '';
 
-      // Rating
-      const reviewRate = document.querySelector('.user-place-rating');
-      reviewRate.innerHTML = '';
-      reviewRate.innerHTML = `★★★★★ ${element.rating}`;
+  review.forEach(element => {
+    const reviewContainer = document.createElement('div');
+    reviewContainer.classList.add('review-container');
 
-      // Text
-      const reviewText = document.querySelector('.users-review-text');
-      reviewText.innerHTML = '';
-      reviewText.innerHTML = `${element.text}`;
+    const reviewDetails = document.createElement('div');
+    reviewDetails.classList.add('user-review-details');
 
-    })
+    // icon image
+    const icon = document.createElement('div');
+    icon.classList.add('user-review-icon');
+
+    // name
+    const reviewName = document.createElement('p');
+    reviewName.classList.add('user-review-name');
+    reviewName.textContent = `${element.user.first_name} ${element.user.last_name}`;
+
+    // Review Stars
+    const starRating = document.createElement('div');
+    starRating.classList.add('user-place-rating');
+
+    const stars = Math.round(element.rating);
+    for (let i = 1; i < 5; i += 1) {
+      const star = document.createElement('span');
+      star.classList.add('fa', 'fa-star');
+      if (i <= stars) {
+        star.classList.add('checked');
+      }
+      starRating.appendChild(star);
+    }
+
+    // rating
+    const reviewRate = document.createElement('p');
+    reviewRate.classList.add('user-place-rating');
+    reviewRate.textContent = `${element.rating}/5`;
+
+    // text
+    const reviewText = document.createElement('p');
+    reviewText.classList.add('users-review-text');
+    reviewText.textContent = element.text;
+
+    // attached to review section
+    reviewDetails.appendChild(icon);
+    reviewDetails.appendChild(reviewName);
+    reviewContainer.appendChild(reviewDetails);
+    reviewContainer.appendChild(reviewRate);
+    reviewContainer.appendChild(starRating);
+    reviewContainer.appendChild(reviewText);
+
+    // attached to review container
+    reviewWrapper.appendChild(reviewContainer);
+  })
 
 }
 
