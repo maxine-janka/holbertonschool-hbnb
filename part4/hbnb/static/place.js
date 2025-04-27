@@ -30,6 +30,7 @@ function checkAuthentication() {
         document.cookie = "token=; expires=Thu, 01 Jan 1970  00:00:00 UTC; path=/";
         loginButton.innerHTML = `<i class="material-icons">perm_identity</i>
             <p>Login</p>`
+        reviewBtn.style.display = 'none'
             loginButton.addEventListener('click', (e) => {
                 window.location.href = 'login.html';
             })
@@ -149,7 +150,7 @@ function displayPlaceDetails(place, review) {
     starRating.classList.add('user-place-rating');
 
     const stars = Math.round(element.rating);
-    for (let i = 1; i < 5; i += 1) {
+    for (let i = 1; i <=5; i += 1) {
       const star = document.createElement('span');
       star.classList.add('fa', 'fa-star');
       if (i <= stars) {

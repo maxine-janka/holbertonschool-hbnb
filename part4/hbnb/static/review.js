@@ -191,6 +191,7 @@ function handleResponse(response) {
     if (response.ok) {
         alert('Review submitted successfully!');
 		modal.style.display = 'none'
+		location.reload();
     } else {
         alert('Failed to submit review');
     }
